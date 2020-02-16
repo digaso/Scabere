@@ -8,6 +8,7 @@ routes.put("/users/:id", (request, response) => {
   return response.json({ message: "ola" });
 });
 
-routes.get("/users", UsersController.Index);
+routes.get("/users", UsersController.index);
+routes.post("/users", UsersController.store);
 
 module.exports = routes;
