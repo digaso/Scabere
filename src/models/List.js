@@ -1,11 +1,9 @@
 const mongoose = require("mongoose");
-const axios = require("axios");
 
 const ListSchema = new mongoose.Schema({
   name: String,
-  tasks: [String],
-  people: [String],
-  isOrdered: Boolean
+  users: [String],
+  admin_users: [String]
 });
 
 module.exports = mongoose.model("Lists", ListSchema);

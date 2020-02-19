@@ -4,8 +4,8 @@ const UserSchema = new mongoose.Schema({
   username: String,
   email: String,
   photo_url: String,
-  Scabs: Number,
-  Friends: [String]
+  scabs: Number,
+  friends: [String]
 });
 
 module.exports = mongoose.model("User", UserSchema);
