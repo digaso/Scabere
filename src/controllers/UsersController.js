@@ -9,8 +9,8 @@ module.exports = {
   },
 
   async store(request, response) {
-    //  let user = await User.find({ username });
+    //   let user = await User.find({ username });
     console.log(request.body);
-    return response.json();
+    return response.json(request.body);
   }
 };
