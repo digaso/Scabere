@@ -9,8 +9,15 @@ module.exports = {
   },
 
   async store(request, response) {
-    //   let user = await User.find({ username });
-    console.log(request.body);
-    return response.json(request.body);
+    const { name, username, email, photo_url, scabs, friends } = request.body;
+    const user = await User.create({
+      name,
+      username,
+      email,
+      photo_url: null,
+      scabs: 0,
+      friends: []
+    });
+    return response.json(user);
   }
 };
