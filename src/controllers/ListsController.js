@@ -9,12 +9,12 @@ module.exports = {
   async store(request, response) {
     const { name, users } = request.body;
     const usersarray = ParseToStringArray(users);
+
     const list = await List.create({
       name,
       users: usersarray,
       admin_users: usersarray
     });
-
     return response.json(list);
   }
 };
