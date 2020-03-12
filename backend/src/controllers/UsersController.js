@@ -26,5 +26,13 @@ module.exports = {
     }
 
     return response.json();
+  },
+  async update(request, response) {
+    const { name, photo_url } = request.body;
+    const user = await User.update({
+      name,
+      photo_url
+    });
+    return response.json(user);
   }
 };
