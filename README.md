@@ -8,18 +8,16 @@ I did this project for school. We needed to do something in the end of the year 
 
 ## How to run
 
-First you need to have your terminal in Scabere directory
+First you need to have your terminal in Scabere backend directory
 
 `cd Scabere/backend`
 
 To install all packeges needed you can use NPM or Yarn
 
-`yarn` OR `npm install`
+**`yarn`**
 
 After that you can start with:
 
-`yarn dev`
-OR
-`npm dev`
+**`yarn dev`**
 
 > This comand is like this because I choosed so in [package.json](backend/package.json), you can change it if you want ;)
