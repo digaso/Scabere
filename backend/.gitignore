@@ -1,4 +1,4 @@
-
-node_modules
-.editorconfig
-yarn-error.log
+/yarn-error.log
+/.env
+/yarn.lock
+/node_modules
