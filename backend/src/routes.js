@@ -8,6 +8,7 @@ const TasksController = require("./controllers/TasksController");
 routes.get("/users", UsersController.index);
 routes.post("/users", UsersController.store);
 routes.put("/users", UsersController.update);
+routes.delete("/users", UsersController.destroy);
 
 routes.get("/statistics", StatisticsController.index);
 routes.post("/statistics", StatisticsController.store);
