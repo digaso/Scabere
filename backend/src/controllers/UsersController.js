@@ -12,10 +12,10 @@ module.exports = {
     console.log(password);
     const hashedpassword = await encryptPassword.encryptPassword(password);
     console.log(hashedpassword);
-    const usersnames = await User.find({ username });
-    const usersemail = await User.find({ email });
+    const usernames = await User.find({ username });
+    const useremails = await User.find({ email });
 
-    if (usersnames.length == 0 && usersemail.length == 0) {
+    if (usernames.length == 0 && useremails.length == 0) {
       const user = await User.create({
         name,
         username,
