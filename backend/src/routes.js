@@ -1,12 +1,18 @@
+const multer = require("multer");
 const { Router } = require("express");
 const routes = Router();
 const UsersController = require("./controllers/UsersController");
 const StatisticsController = require("./controllers/StatisticsController");
 const ListsController = require("./controllers/ListsController");
 const TasksController = require("./controllers/TasksController");
+const multerconfig = require("./config/multer");
 
 routes.get("/users", UsersController.index);
-routes.post("/users", UsersController.store);
+routes.post(
+  "/users",
+  multer(multerconfig).single("photo_url"),
+  UsersController.store
+);
 routes.put("/users", UsersController.update);
 routes.delete("/users", UsersController.destroy);
 

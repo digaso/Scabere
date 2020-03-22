@@ -1,6 +1,7 @@
 const axios = require("axios");
 const User = require("../models/User");
 const encryptPassword = require("../utils/encryptPassword");
+const multer = require("multer");
 
 module.exports = {
   async index(request, response) {
@@ -9,19 +10,17 @@ module.exports = {
   },
   async store(request, response) {
     const { name, username, email, password } = request.body;
-    console.log(password);
     const hashedpassword = await encryptPassword.encryptPassword(password);
-    console.log(hashedpassword);
     const usernames = await User.find({ username });
     const useremails = await User.find({ email });
-
+    const photo_url = request.file.filename;
     if (usernames.length == 0 && useremails.length == 0) {
       const user = await User.create({
         name,
         username,
         email,
         password: hashedpassword,
-        photo_url: null,
+        photo_url: photo_url,
         scabs: 0,
         friends: []
       });
