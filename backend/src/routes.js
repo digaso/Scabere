@@ -13,8 +13,8 @@ routes.post(
   multer(multerconfig).single("photo_url"),
   UsersController.store
 );
-routes.put("/users", UsersController.update);
-routes.delete("/users", UsersController.destroy);
+routes.put("/users/:username", UsersController.update);
+routes.delete("/users/:username", UsersController.destroy);
 
 routes.get("/statistics", StatisticsController.index);
 routes.post("/statistics", StatisticsController.store);

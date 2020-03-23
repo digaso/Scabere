@@ -11,16 +11,16 @@ module.exports = {
   async store(request, response) {
     const { name, username, email, password } = request.body;
     const hashedpassword = await encryptPassword.encryptPassword(password);
-    const usernames = await User.find({ username });
-    const useremails = await User.find({ email });
-    const photo_url = request.file.filename;
-    if (usernames.length == 0 && useremails.length == 0) {
+    const userNames = await User.find({ username });
+    const userEmails = await User.find({ email });
+    const photo_url = request.file.location;
+    if (userNames.length == 0 && userEmails.length == 0) {
       const user = await User.create({
         name,
         username,
         email,
         password: hashedpassword,
-        photo_url: photo_url,
+        photo_url,
         scabs: 0,
         friends: []
       });
@@ -42,8 +42,8 @@ module.exports = {
     return response.json(user);
   },
   async destroy(request, response) {
-    const { username } = request.body;
-    const user = await User.deleteOne({ username });
+    const username = request.params.username;
+    await User.deleteOne({ username });
     const users = await User.find({ username });
     response.json(users);
   }
