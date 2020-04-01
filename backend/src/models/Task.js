@@ -9,11 +9,27 @@ const TaskSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  description: String,
-  deadline_date: Date,
-  ispinned: Boolean,
-  location: String,
-  idlist: String
+  description: {
+    type: String,
+    default: null
+  },
+
+  deadline_date: {
+    type: Date,
+    default: null
+  },
+  ispinned: {
+    type: Boolean,
+    default: false
+  },
+  location: {
+    type: String,
+    default: null
+  },
+  idlist: {
+    type: String,
+    default: null
+  }
 });
 
 module.exports = mongoose.model("Task", TaskSchema);
