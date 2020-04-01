@@ -7,6 +7,9 @@ const ListsController = require("./controllers/ListsController");
 const TasksController = require("./controllers/TasksController");
 const multerconfig = require("./config/multer");
 
+//Try or learn middlewares
+
+routes.get("/profile", UsersController.indexOne);
 routes.get("/users", UsersController.index);
 routes.post(
   "/users",
@@ -17,18 +20,18 @@ routes.put("/users/:username", UsersController.update);
 routes.delete("/users/:username", UsersController.destroy);
 
 routes.get("/statistics", StatisticsController.index);
-routes.get("/:username/statistics", StatisticsController.userStats);
+routes.get("/profile/statistics", StatisticsController.userStats);
 routes.post("/statistics", StatisticsController.store);
 
 routes.get("/lists", ListsController.index);
 routes.get("/lists/:id", ListsController.indexOne);
-routes.get("/:username/lists", ListsController.userLists);
+routes.get("/profile/lists", ListsController.userLists);
 routes.post("/lists", ListsController.store);
 
 routes.get("/users/:username/:idlist/tasks", TasksController.listTasks);
 routes.get("/tasks", TasksController.index);
 routes.get("/tasks/:id", TasksController.indexOne);
-routes.get("/:username/tasks", TasksController.userTasks);
+routes.get("/profile/tasks", TasksController.userTasks);
 routes.post("/tasks", TasksController.store);
 
 module.exports = routes;
