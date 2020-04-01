@@ -12,8 +12,7 @@ module.exports = {
 
     const list = await List.create({
       name,
-      users: usersarray,
-      admin_users: usersarray
+      users: usersarray
     });
     return response.json(list);
   }
