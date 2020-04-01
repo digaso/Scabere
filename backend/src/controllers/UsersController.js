@@ -8,6 +8,7 @@ module.exports = {
     const users = await User.find();
     return response.json(users);
   },
+
   async store(request, response) {
     const { name, username, email, password } = request.body;
     const hashedpassword = await encryptPassword.encryptPassword(password);
@@ -20,9 +21,7 @@ module.exports = {
         username,
         email,
         password: hashedpassword,
-        photo_url,
-        scabs: 0,
-        friends: []
+        photo_url
       });
 
       return response.json(user);
