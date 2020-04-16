@@ -5,33 +5,37 @@ const UsersController = require("./controllers/UsersController");
 const StatisticsController = require("./controllers/StatisticsController");
 const ListsController = require("./controllers/ListsController");
 const TasksController = require("./controllers/TasksController");
+const ProfileController = require("./controllers/ProfileController");
 const multerconfig = require("./config/multer");
 
-//Try or learn middlewares
-
-routes.get("/profile", UsersController.indexOne);
 routes.get("/users", UsersController.index);
 routes.post(
   "/users",
   multer(multerconfig).single("photo_url"),
   UsersController.store
 );
-routes.put("/users/:username", UsersController.update);
+routes.put(
+  "/users/:username",
+  multer(multerconfig).single("photo_url"),
+  UsersController.update
+);
 routes.delete("/users/:username", UsersController.destroy);
 
-routes.get("/statistics", StatisticsController.index);
-routes.get("/profile/statistics", StatisticsController.userStats);
-routes.post("/statistics", StatisticsController.store);
+routes.get("/profile", ProfileController.index);
+routes.get("/profile/lists", ProfileController.lists);
+routes.get("/profile/stats", ProfileController.stats);
+routes.get("/profile/tasks", ProfileController.tasks);
+
+routes.get("/stats", StatisticsController.index);
+routes.post("/stats", StatisticsController.store);
 
 routes.get("/lists", ListsController.index);
-routes.get("/lists/:id", ListsController.indexOne);
-routes.get("/profile/lists", ListsController.userLists);
+routes.delete("/lists/:id", ListsController.destroy);
 routes.post("/lists", ListsController.store);
 
-routes.get("/users/:username/:idlist/tasks", TasksController.listTasks);
+routes.get("/lists/:id/tasks", TasksController.listTasks);
 routes.get("/tasks", TasksController.index);
-routes.get("/tasks/:id", TasksController.indexOne);
-routes.get("/profile/tasks", TasksController.userTasks);
 routes.post("/tasks", TasksController.store);
+routes.put("/tasks/:id", TasksController.update);
 
 module.exports = routes;

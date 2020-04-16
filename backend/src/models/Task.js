@@ -3,33 +3,36 @@ const mongoose = require("mongoose");
 const TaskSchema = new mongoose.Schema({
   username: {
     type: String,
-    required: true
+    required: true,
   },
   title: {
     type: String,
-    required: true
+    required: true,
   },
   description: {
     type: String,
-    default: null
+    default: null,
   },
-
+  done: {
+    type: Boolean,
+    default: false,
+  },
   deadline_date: {
     type: Date,
-    default: null
+    default: null,
   },
   ispinned: {
     type: Boolean,
-    default: false
+    default: false,
   },
   location: {
     type: String,
-    default: null
+    default: null,
   },
   idlist: {
     type: String,
-    default: null
-  }
+    default: null,
+  },
 });
 
 module.exports = mongoose.model("Task", TaskSchema);

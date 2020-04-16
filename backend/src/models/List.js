@@ -5,6 +5,7 @@ const ListSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  createdby: String,
   users: [String]
 });
 
