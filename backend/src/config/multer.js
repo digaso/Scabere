@@ -13,9 +13,15 @@ const storageTypes = {
       const originalName = file.originalname;
       const extensionFileposition = originalName.indexOf(".");
       const extensionFile = originalName.substring(extensionFileposition);
-      const fileName = request.body.username + extensionFile;
+      let fileName;
+      let time = new Date().getTime();
+      if (request.body.username != undefined) {
+        fileName = time + request.body.username + extensionFile;
+      } else {
+        fileName = time + request.params.username + extensionFile;
+      }
       cb(null, fileName);
-    }
+    },
   }),
   s3: multerS3({
     s3: new aws.S3(),
@@ -26,17 +32,23 @@ const storageTypes = {
       const originalName = file.originalname;
       const extensionFileposition = originalName.indexOf(".");
       const extensionFile = originalName.substring(extensionFileposition);
-      const fileName = request.body.username + extensionFile;
+      let fileName;
+      let time = new Date().getTime();
+      if (request.body.username != undefined) {
+        fileName = time + request.body.username + extensionFile;
+      } else {
+        fileName = time + request.params.username + extensionFile;
+      }
       cb(null, fileName);
-    }
-  })
+    },
+  }),
 };
 
 module.exports = {
   dest: path.resolve(__dirname, "..", "..", "tmp", "uploads"),
   storage: storageTypes["s3"],
   limits: {
-    fileSize: 5 * 1024 * 1024
+    fileSize: 5 * 1024 * 1024,
   },
   fileFilter: (request, file, cb) => {
     const allowedTypes = ["image/png", "image/jpeg", "image/pjpeg"];
@@ -46,5 +58,5 @@ module.exports = {
     } else {
       cb(new Error("BRO!! Invalid File Type :("), false);
     }
-  }
+  },
 };

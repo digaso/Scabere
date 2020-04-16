@@ -5,7 +5,7 @@ const routes = require("./routes");
 const app = express();
 require("dotenv/config");
 
-app.use(cors);
+//app.use(cors);
 mongoose.connect(
   process.env.DB_CONNECT,
   {
