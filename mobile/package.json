@@ -1,22 +1,38 @@
 {
-  "main": "node_modules/expo/AppEntry.js",
-  "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web",
-    "eject": "expo eject"
-  },
-  "dependencies": {
-    "expo": "~36.0.0",
-    "react": "~16.9.0",
-    "react-dom": "~16.9.0",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-36.0.0.tar.gz",
-    "react-native-web": "~0.11.7"
-  },
-  "devDependencies": {
-    "babel-preset-expo": "~8.0.0",
-    "@babel/core": "^7.0.0"
-  },
-  "private": true
+	"main": "node_modules/expo/AppEntry.js",
+	"scripts": {
+		"start": "expo start",
+		"android": "expo start --android",
+		"ios": "expo start --ios",
+		"web": "expo start --web",
+		"eject": "expo eject",
+		"commit": "git-cz"
+	},
+	"husky": {
+		"hooks": {
+			"commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+			"prepare-commit-msg": "exec < /dev/tty && git-cz --hook || true"
+		}
+	},
+	"dependencies": {
+		"expo": "~36.0.0",
+		"react": "~16.9.0",
+		"react-dom": "~16.9.0",
+		"react-native": "https://github.com/expo/react-native/archive/sdk-36.0.0.tar.gz",
+		"react-native-web": "~0.11.7"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.0.0",
+		"@commitlint/cli": "^8.3.5",
+		"@commitlint/config-conventional": "^8.3.4",
+		"babel-preset-expo": "~8.0.0",
+		"commitizen": "^4.0.4",
+		"cz-conventional-changelog": "3.1.0",
+		"husky": "^4.2.5"
+	},
+	"config": {
+		"commitizen": {
+			"path": "./node_modules/cz-conventional-changelog"
+		}
+	}
 }
