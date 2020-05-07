@@ -2,30 +2,29 @@ import React from "react";
 import { StyleSheet } from "react-native";
 export default StyleSheet.create({
 	container: {
-		backgroundColor: "#FFE76D",
+		backgroundColor: "#fff",
 		flex: 1,
 		alignItems: "center",
 	},
 	icon: {
-		marginTop: 80,
+		marginTop: "35%",
 		alignSelf: "center",
 	},
-
 	button: {
-		marginTop: 120,
-		backgroundColor: "#fff",
+		marginTop: "35%",
+		backgroundColor: "#000",
 		width: 230,
 		height: 75,
 		borderRadius: 9,
 		justifyContent: "center",
 	},
 	buttonText: {
-		color: "#000",
-		fontSize: 31,
+		color: "#fff",
 		textAlign: "center",
+		fontSize: 31,
 	},
 	link: {
-		marginTop: 20,
+		marginTop: "4%",
 		alignItems: "center",
 		fontSize: 18,
 	},
