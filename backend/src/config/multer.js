@@ -48,7 +48,7 @@ module.exports = {
   dest: path.resolve(__dirname, "..", "..", "tmp", "uploads"),
   storage: storageTypes["s3"],
   limits: {
-    fileSize: 5 * 1024 * 1024,
+    fileSize: 12 * 1024 * 1024,
   },
   fileFilter: (request, file, cb) => {
     const allowedTypes = ["image/png", "image/jpeg", "image/pjpeg"];

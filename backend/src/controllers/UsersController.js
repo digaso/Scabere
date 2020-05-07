@@ -40,22 +40,26 @@ module.exports = {
     const userNames = await User.find({ username });
     const userEmails = await User.find({ email });
     const photo_url = request.file.location;
-
-    if (userNames.length == 0 && userEmails.length == 0) {
-      const user = await User.create({
-        name,
-        username,
-        email,
-        password: hashedpassword,
-        photo_url,
-      });
-      console.log(`${username} created`);
-      return response.json(user);
-    } else {
-      return response
-        .status(404)
-        .json({ error: "Username or Email already in use" });
+    try {
+      if (userNames.length == 0 && userEmails.length == 0) {
+        const user = await User.create({
+          name,
+          username,
+          email,
+          password: hashedpassword,
+          birthdate,
+          photo_url,
+        });
+      } else {
+        return response
+          .status(404)
+          .json({ error: "Username or Email already in use" });
+      }
+    } catch (error) {
+      return response.json({ error });
     }
+    console.log(`${username} created`);
+    return response.json(user);
   },
   async update(request, response) {
     const { name, password } = request.body;
