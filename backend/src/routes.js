@@ -5,37 +5,36 @@ const UsersController = require("./controllers/UsersController");
 const StatisticsController = require("./controllers/StatisticsController");
 const ListsController = require("./controllers/ListsController");
 const TasksController = require("./controllers/TasksController");
-const ProfileController = require("./controllers/ProfileController");
 const multerconfig = require("./config/multer");
+const checkAuth = require("./middleware/checkAuth");
+const getUserLists = require("./middleware/getUserLists");
 
-routes.get("/users", UsersController.index);
+routes.get("/users", checkAuth, UsersController.index);
+routes.post("/login", UsersController.login);
 routes.post(
   "/users",
   multer(multerconfig).single("photo_url"),
-  UsersController.store
+  UsersController.store,
+  StatisticsController.store
 );
 routes.put(
-  "/users/:username",
+  "/users",
+  checkAuth,
   multer(multerconfig).single("photo_url"),
   UsersController.update
 );
-routes.delete("/users/:username", UsersController.destroy);
+routes.delete("/users", checkAuth, UsersController.destroy);
 
-routes.get("/profile", ProfileController.index);
-routes.get("/profile/lists", ProfileController.lists);
-routes.get("/profile/stats", ProfileController.stats);
-routes.get("/profile/tasks", ProfileController.tasks);
+routes.get("/stats", checkAuth, StatisticsController.index);
 
-routes.get("/stats", StatisticsController.index);
-routes.post("/stats", StatisticsController.store);
+routes.get("/lists", checkAuth, ListsController.index);
+routes.delete("/lists/:id", checkAuth, ListsController.destroy);
+routes.post("/lists", checkAuth, ListsController.store);
 
-routes.get("/lists", ListsController.index);
-routes.delete("/lists/:id", ListsController.destroy);
-routes.post("/lists", ListsController.store);
-
-routes.get("/lists/:id/tasks", TasksController.listTasks);
-routes.get("/tasks", TasksController.index);
-routes.post("/tasks", TasksController.store);
-routes.put("/tasks/:id", TasksController.update);
+routes.get("/lists/:id/tasks", checkAuth, TasksController.listTasks);
+routes.get("/tasks", checkAuth, getUserLists, TasksController.index);
+routes.post("/tasks", checkAuth, TasksController.store);
+routes.put("/tasks/:id", checkAuth, TasksController.update);
+routes.delete("/tasks/:id", checkAuth, TasksController.destroy);
 
 module.exports = routes;
