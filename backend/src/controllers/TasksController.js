@@ -51,9 +51,21 @@ module.exports = {
 
   async listTasks(request, response) {
     const idlist = request.params.id;
-    const listtasks = await Task.find({
+    const listTasks = await Task.find({
       idlist,
     });
-    return response.status(200).json(listtasks);
+    return response.status(200).json(listTasks);
+  },
+  async destroy(request, response) {
+    const idTask = request.params.id;
+    const { username } = request.userData;
+    const task = await Task.findOne({ _id: idTask });
+    if (username == task.username) {
+      task.remove();
+      return response
+        .status(200)
+        .json({ message: "Task deleted successfully" });
+    } else {
+    }
   },
 };
