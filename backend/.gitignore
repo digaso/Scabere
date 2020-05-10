@@ -1,6 +1,5 @@
 /yarn-error.log
 /.env
-/yarn.lock
 /node_modules
 /.vscode
 /tmp
