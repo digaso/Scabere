@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from "react";
-import { StatusBar, View, TouchableOpacity, Text } from "react-native";
+import { StatusBar, View, TouchableOpacity, Text, Alert } from "react-native";
 import { Scope } from "@unform/core";
 import { Form } from "@unform/mobile";
 import Input from "../../utils/Input";
@@ -14,11 +14,10 @@ export default function Register({ route, navigation }) {
 		navigation.goBack();
 	}
 	async function handleSubmit(data, { reset }) {
+		data.birthdate = route.params.date;
 		const log = await api.post("/users", data);
-		console.log(log);
-		reset();
+		Alert.alert(log.data.message);
 	}
-	async function loaddata() {}
 	useEffect(() => {}, []);
 
 	return (
