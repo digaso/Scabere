@@ -1,26 +1,21 @@
 import React, { useRef, useEffect } from "react";
-import {
-	StatusBar,
-	View,
-	TouchableOpacity,
-	Image,
-	KeyboardAvoidingView,
-	TouchableWithoutFeedback,
-	Platform,
-	Text,
-} from "react-native";
+import { StatusBar, View, TouchableOpacity, Text } from "react-native";
 import { Scope } from "@unform/core";
 import { Form } from "@unform/mobile";
 import Input from "../../utils/Input";
 import styles from "./styles";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import api from "../../../services/api";
 
-export default function Register() {
+export default function Register({ route, navigation }) {
 	const formRef = useRef(null);
-
-	function handleSubmit(data, { reset }) {
-		console.log(data);
+	function goBack() {
+		navigation.goBack();
+	}
+	async function handleSubmit(data, { reset }) {
+		const log = await api.post("/users", data);
+		console.log(log);
 		reset();
 	}
 	async function loaddata() {}
@@ -29,7 +24,9 @@ export default function Register() {
 	return (
 		<View style={styles.container}>
 			<StatusBar hidden />
-			<MaterialIcons name="arrow-back" size={28} />
+			<TouchableOpacity onPress={goBack}>
+				<MaterialIcons name="arrow-back" size={28} />
+			</TouchableOpacity>
 			<View style={styles.textcontainer}>
 				<Text style={styles.text}>Thanks!</Text>
 				<Text style={styles.text}>
@@ -48,7 +45,7 @@ export default function Register() {
 							formRef.current.submitForm();
 						}}
 					>
-						<Text style={styles.buttonText}>Next</Text>
+						<Text style={styles.buttonText}>Submit</Text>
 					</TouchableOpacity>
 				</Form>
 			</View>

@@ -22,8 +22,8 @@ export default StyleSheet.create({
 	},
 	button: {
 		backgroundColor: "#000",
-		height: 40,
-		width: 100,
+		height: "15%",
+		width: "30%",
 		alignItems: "center",
 		justifyContent: "center",
 		borderRadius: 5,
@@ -32,8 +32,7 @@ export default StyleSheet.create({
 	buttonText: {
 		flex: 1,
 		fontSize: 20,
-		marginTop: "5%",
-		marginBottom: "5%",
 		color: "#fff",
+		marginTop: "13%",
 	},
 });
