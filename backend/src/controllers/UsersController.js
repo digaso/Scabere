@@ -85,13 +85,28 @@ module.exports = {
     const userNames = await User.find({ username });
     const userEmails = await User.find({ email });
     try {
+      if (name == null || name == "") {
+        return response.json({ message: "Invalid name" });
+      }
+      if (username == null || username == "") {
+        return response.json({ message: "Invalid username" });
+      }
+      if (email == null || email == "") {
+        return response.json({ message: "Invalid email" });
+      }
+      if (password == null || password == "" || password.length < 8) {
+        return response.json({
+          message: "Password must have at least 8 characters",
+        });
+      }
+
       if (userNames.length == 0 && userEmails.length == 0) {
         const user = await User.create({
           name,
           username,
           email,
           password: hashedpassword,
-          birthdate: "2000-01-01",
+          birthdate,
         });
         console.log(`${username} created`);
         next();
