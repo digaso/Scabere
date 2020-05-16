@@ -16,9 +16,10 @@ const storageTypes = {
       let fileName;
       let time = new Date().getTime();
       if (request.body.username != undefined) {
+        console.log(request.body.username);
         fileName = time + request.body.username + extensionFile;
       } else {
-        fileName = time + request.params.username + extensionFile;
+        fileName = time + request.userData.username + extensionFile;
       }
       cb(null, fileName);
     },
@@ -37,7 +38,7 @@ const storageTypes = {
       if (request.body.username != undefined) {
         fileName = time + request.body.username + extensionFile;
       } else {
-        fileName = time + request.params.username + extensionFile;
+        fileName = time + request.userData.username + extensionFile;
       }
       cb(null, fileName);
     },

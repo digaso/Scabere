@@ -84,7 +84,6 @@ module.exports = {
     const hashedpassword = await encryptPassword.encryptPassword(password);
     const userNames = await User.find({ username });
     const userEmails = await User.find({ email });
-    const photo_url = request.file.location;
     try {
       if (userNames.length == 0 && userEmails.length == 0) {
         const user = await User.create({
@@ -92,8 +91,7 @@ module.exports = {
           username,
           email,
           password: hashedpassword,
-          birthdate,
-          photo_url,
+          birthdate: "2000-01-01",
         });
         console.log(`${username} created`);
         next();
@@ -115,7 +113,7 @@ module.exports = {
     const photo_url = user.photo_url;
     try {
       const filename = getFileName(photo_url);
-      deleteFile(filename);
+      if (filename !== "defaultpic.png") deleteFile(filename);
       await user.update({
         name,
         password: hashedpassword,

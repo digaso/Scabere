@@ -18,7 +18,7 @@ const UserSchema = new mongoose.Schema({
   },
   photo_url: {
     type: String,
-    default: null,
+    default: "https://scaberefiles.s3.eu-west-3.amazonaws.com/defaultpic.png",
   },
   scabs: {
     type: Number,
