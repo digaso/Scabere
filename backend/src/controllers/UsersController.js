@@ -41,13 +41,13 @@ module.exports = {
       .then((user) => {
         if (!user) {
           return response.status(401).json({
-            message: "Authorization 1failed",
+            message: "Email/Password combination are incorrect",
           });
         }
         bcrypt.compare(password, user.password, (err, result) => {
           if (err) {
             return response.status(401).json({
-              message: "Authorization 2failed",
+              message: "Email/Password combination are incorrect",
             });
           }
           if (result) {
@@ -62,12 +62,12 @@ module.exports = {
             console.log(request.headers.authorization);
 
             return response.status(200).json({
-              message: "Authorition succeeded",
+              message: "Authorization succeeded",
               token,
             });
           }
           response.status(401).json({
-            message: "Authorization 3failed",
+            message: "Email/Password combination are incorrect",
           });
         });
       })
@@ -86,16 +86,16 @@ module.exports = {
     const userEmails = await User.find({ email });
     try {
       if (name == null || name == "") {
-        return response.json({ message: "Invalid name" });
+        return response.status(404).json({ message: "Invalid name" });
       }
       if (username == null || username == "") {
-        return response.json({ message: "Invalid username" });
+        return response.status(404).json({ message: "Invalid username" });
       }
       if (email == null || email == "") {
-        return response.json({ message: "Invalid email" });
+        return response.status(404).json({ message: "Invalid email" });
       }
       if (password == null || password == "" || password.length < 8) {
-        return response.json({
+        return response.status(404).json({
           message: "Password must have at least 8 characters",
         });
       }
@@ -113,7 +113,7 @@ module.exports = {
       } else {
         return response
           .status(404)
-          .json({ error: "Username or Email already in use" });
+          .json({ message: "Username or Email already in use" });
       }
     } catch (err) {
       return response.json({ err });
