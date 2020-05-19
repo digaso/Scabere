@@ -8,8 +8,7 @@ export default StyleSheet.create({
 	formcontainer: {
 		flex: 1,
 		alignItems: "center",
-		padding: "8%",
-		marginTop: "10%",
+		justifyContent: "space-evenly",
 	},
 	textcontainer: {
 		flex: 0.2,
@@ -22,17 +21,14 @@ export default StyleSheet.create({
 	},
 	button: {
 		backgroundColor: "#000",
-		height: "15%",
+		height: "10%",
 		width: "30%",
 		alignItems: "center",
 		justifyContent: "center",
 		borderRadius: 5,
-		marginTop: "45%",
 	},
 	buttonText: {
-		flex: 1,
 		fontSize: 20,
 		color: "#fff",
-		marginTop: "13%",
 	},
 });

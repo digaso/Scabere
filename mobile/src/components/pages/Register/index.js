@@ -15,8 +15,13 @@ export default function Register({ route, navigation }) {
 	}
 	async function handleSubmit(data, { reset }) {
 		data.birthdate = route.params.date;
-		const log = await api.post("/users", data);
-		Alert.alert(log.data.message);
+		const log = await api.post("/users", data).catch((error) => {
+			Alert.alert(error.response.data.message);
+		});
+		if (log) {
+			Alert.alert(log.data.message);
+			navigation.navigate("Home");
+		}
 	}
 	useEffect(() => {}, []);
 
@@ -34,10 +39,12 @@ export default function Register({ route, navigation }) {
 			</View>
 			<View style={styles.formcontainer}>
 				<Form ref={formRef} onSubmit={handleSubmit}>
-					<Input name="name" label="Name" />
-					<Input name="username" label="Username" />
-					<Input name="email" label="Email" type="email" />
-					<Input name="password" label="Password" type="password" />
+					<View>
+						<Input name="name" label="Name" />
+						<Input name="username" label="Username" />
+						<Input name="email" label="Email" type="email" />
+						<Input name="password" label="Password" type="password" />
+					</View>
 					<TouchableOpacity
 						style={styles.button}
 						onPress={() => {
