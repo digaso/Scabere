@@ -32,6 +32,10 @@ export default function StartScreen({ route, navigation }) {
 				navigation.navigate("StartScreen");
 			});
 	}
+	async function handleSignOut() {
+		await AsyncStorage.removeItem("token");
+		navigation.navigate("Login");
+	}
 	useEffect(() => {
 		getUserData();
 	}, []);
@@ -60,7 +64,7 @@ export default function StartScreen({ route, navigation }) {
 						<MaterialIcons name="create" size={30} />
 					</TouchableOpacity>
 				</View>
-				<TouchableOpacity style={styles.buttonSignOut}>
+				<TouchableOpacity style={styles.buttonSignOut} onPress={handleSignOut}>
 					<Text style={styles.textButtonSignOut}>Sign Out</Text>
 				</TouchableOpacity>
 			</View>
