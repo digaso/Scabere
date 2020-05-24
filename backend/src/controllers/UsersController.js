@@ -59,7 +59,6 @@ module.exports = {
               process.env.JWT_SECRET_KEY
             );
             request.headers.authorization = token;
-            console.log(request.headers.authorization);
 
             return response.status(200).json({
               message: "Authorization succeeded",
@@ -120,18 +119,20 @@ module.exports = {
     }
   },
   async update(request, response) {
-    const { name, password } = request.body;
+    let { name } = request.body;
     const userId = request.userData.userId;
     const newphoto_url = request.file.location;
-    const hashedpassword = await encryptPassword.encryptPassword(password);
     let user = await User.findOne({ _id: userId });
     const photo_url = user.photo_url;
     try {
+      if (name == null || name == "" || name == undefined) {
+        name = user.name;
+      }
       const filename = getFileName(photo_url);
+      console.log(name);
       if (filename !== "defaultpic.png") deleteFile(filename);
       await user.update({
         name,
-        password: hashedpassword,
         photo_url: newphoto_url,
       });
       console.log(`User updated information`);
