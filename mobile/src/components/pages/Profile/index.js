@@ -6,7 +6,6 @@ import {
 	AsyncStorage,
 	Image,
 	Alert,
-	ImageBackground,
 	TouchableOpacity,
 } from "react-native";
 import styles from "./styles";
@@ -14,8 +13,9 @@ import { MaterialIcons } from "@expo/vector-icons";
 
 import api from "../../../services/api";
 
-export default function StartScreen({ route, navigation }) {
+export default function Profile({ route, navigation }) {
 	const [data, setData] = useState({});
+	const [image, setImage] = useState({});
 	async function getUserData() {
 		const token = await AsyncStorage.getItem("token");
 		await api
@@ -36,33 +36,41 @@ export default function StartScreen({ route, navigation }) {
 		await AsyncStorage.removeItem("token");
 		navigation.navigate("Login");
 	}
+	function goEdit() {
+		navigation.navigate("ProfileEdit");
+	}
 	useEffect(() => {
 		getUserData();
-	}, []);
+		setImage(data.photo_url);
+	}, [data, image]);
 	return (
 		<View style={styles.mainContainer}>
 			<StatusBar hidden />
-			<ImageBackground
-				style={styles.containerUp}
-				source={{
-					uri: data.photo_url,
-				}}
-				blurRadius={4}
-			></ImageBackground>
+			<View style={styles.containerUp}></View>
 			<View style={styles.container}>
 				<View style={styles.imageContainer}>
 					<Image
 						style={styles.image}
 						resizeMethod="scale"
 						resizeMode="cover"
-						source={{ uri: data.photo_url }}
+						source={{ uri: image }}
 					/>
 				</View>
 				<View style={styles.subContainer}>
-					<Text style={styles.textName}>{data.name}</Text>
-					<TouchableOpacity style={styles.buttonEdit}>
+					<View style={styles.blankView}></View>
+					<View
+						style={{
+							alignItems: "center",
+							justifyContent: "center",
+							alignSelf: "center",
+						}}
+					>
+						<Text style={styles.textName}>{data.name}</Text>
+					</View>
+					<TouchableOpacity style={styles.buttonEdit} onPress={goEdit}>
 						<MaterialIcons name="create" size={30} />
 					</TouchableOpacity>
+					<View style={styles.blankView2}></View>
 				</View>
 				<TouchableOpacity style={styles.buttonSignOut} onPress={handleSignOut}>
 					<Text style={styles.textButtonSignOut}>Sign Out</Text>

@@ -4,11 +4,13 @@ import { TextInput, Text } from "react-native";
 import { useField } from "@unform/core";
 import { StyleSheet } from "react-native";
 
-function Input({ name, label, style, type, colorplaceholder, ...rest }) {
+function Input({ name, label, style, type, value, colorplaceholder, ...rest }) {
 	const inputRef = useRef(null);
 
 	const { fieldName, registerField, defaultValue, error } = useField(name);
-
+	if (value == undefined) {
+		value = "";
+	}
 	useEffect(() => {
 		inputRef.current.value = defaultValue;
 	}, [defaultValue]);
@@ -58,7 +60,7 @@ function Input({ name, label, style, type, colorplaceholder, ...rest }) {
 				secureTextEntry={ispassword}
 				keyboardAppearance="dark"
 				keyboardType={keyboardtype}
-				defaultValue={defaultValue}
+				defaultValue={value}
 				placeholder={label}
 				placeholderTextColor={color}
 				onChangeText={(value) => {

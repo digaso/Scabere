@@ -7,12 +7,13 @@ export default StyleSheet.create({
 		alignItems: "center",
 		borderTopLeftRadius: 15,
 		borderTopRightRadius: 15,
+		alignContent: "center",
 		top: "-5%",
 	},
 	containerUp: {
 		flex: 1,
-		backgroundColor: "#000",
 		alignItems: "center",
+		backgroundColor: "#008fff",
 	},
 	image: {
 		borderRadius: 1000,
@@ -24,26 +25,26 @@ export default StyleSheet.create({
 		backgroundColor: "#fff",
 	},
 	imageContainer: {
-		position: "relative",
 		top: "-15%",
 	},
 	textName: {
-		paddingLeft: "4%",
-		fontSize: 30,
-		flex: 0.6,
+		fontSize: 26,
+		flex: 1,
 		fontWeight: "300",
 		alignSelf: "center",
 	},
 	buttonEdit: {
-		backgroundColor: "rgba(0,0,0,0.1)",
-		flex: 0.14,
+		backgroundColor: "rgba(0,0,0,0.05)",
+		flex: 0.25,
+		height: 40,
 		alignItems: "center",
 		justifyContent: "center",
 		borderRadius: 7,
+		marginLeft: "5%",
 	},
 	buttonSignOut: {
 		backgroundColor: "rgba(255,0,0,0.3)",
-		flex: 0.15,
+		flex: 0.12,
 		justifyContent: "center",
 		alignItems: "center",
 		borderRadius: 7,
@@ -52,12 +53,16 @@ export default StyleSheet.create({
 	textButtonSignOut: {
 		fontSize: 22,
 		paddingHorizontal: "10%",
-		color: "rgba(220,0,0,1)",
+		color: "rgba(255,0,0,1)",
 	},
 	subContainer: {
 		flexDirection: "row",
 		marginTop: "-12%",
-		paddingLeft: "19%",
-		alignItems: "center",
+	},
+	blankView: {
+		flex: 1,
+	},
+	blankView2: {
+		flex: 0.6,
 	},
 });

@@ -20,7 +20,7 @@ export default function Register({ route, navigation }) {
 		});
 		if (log) {
 			Alert.alert(log.data.message);
-			navigation.navigate("Home");
+			navigation.navigate("StartScreen");
 		}
 	}
 	useEffect(() => {}, []);
