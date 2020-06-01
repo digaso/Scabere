@@ -121,25 +121,26 @@ module.exports = {
   async update(request, response) {
     let { name } = request.body;
     const userId = request.userData.userId;
-    const newphoto_url = request.file.location;
     let user = await User.findOne({ _id: userId });
     const photo_url = user.photo_url;
-    try {
-      if (name == null || name == "" || name == undefined) {
-        name = user.name;
-      }
-      const filename = getFileName(photo_url);
-      console.log(name);
-      if (filename !== "defaultpic.png") deleteFile(filename);
-      await user.update({
+    const newphoto_url = request.file ? request.file.location : photo_url;
+
+    const filename = getFileName(photo_url);
+    if (name == null || name == "" || name == undefined) {
+      name = user.name;
+    }
+    if (newphoto_url != "defaultpic.jpg" && request.file) {
+      const res = deleteFile(filename);
+    }
+    await user
+      .updateOne({
         name,
         photo_url: newphoto_url,
+      })
+      .catch(() => {
+        console.log("ah nao deu");
       });
-      console.log(`User updated information`);
-    } catch (error) {
-      return response.json({ error });
-    }
-
+    console.log(`User updated information`);
     return response.json();
   },
   async destroy(request, response) {
