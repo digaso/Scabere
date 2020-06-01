@@ -12,10 +12,14 @@ import styles from "./styles";
 import { MaterialIcons } from "@expo/vector-icons";
 
 import api from "../../../services/api";
+import { useContext } from "react";
+import profileContext from "../../../services/profileContext";
 
 export default function Profile({ route, navigation }) {
 	const [data, setData] = useState({});
-	const [image, setImage] = useState({});
+	const [image, setImage] = useState("");
+	const { toogleEdited, edited } = useContext(profileContext);
+
 	async function getUserData() {
 		const token = await AsyncStorage.getItem("token");
 		await api
@@ -31,6 +35,7 @@ export default function Profile({ route, navigation }) {
 				await AsyncStorage.removeItem("token");
 				navigation.navigate("StartScreen");
 			});
+		setImage(data.photo_url);
 	}
 	async function handleSignOut() {
 		await AsyncStorage.removeItem("token");
@@ -41,8 +46,9 @@ export default function Profile({ route, navigation }) {
 	}
 	useEffect(() => {
 		getUserData();
-		setImage(data.photo_url);
-	}, [data, image]);
+
+		if (edited) toogleEdited();
+	}, [edited]);
 	return (
 		<View style={styles.mainContainer}>
 			<StatusBar hidden />
@@ -53,7 +59,7 @@ export default function Profile({ route, navigation }) {
 						style={styles.image}
 						resizeMethod="scale"
 						resizeMode="cover"
-						source={{ uri: image }}
+						source={{ uri: data.photo_url }}
 					/>
 				</View>
 				<View style={styles.subContainer}>
@@ -75,6 +81,10 @@ export default function Profile({ route, navigation }) {
 				<TouchableOpacity style={styles.buttonSignOut} onPress={handleSignOut}>
 					<Text style={styles.textButtonSignOut}>Sign Out</Text>
 				</TouchableOpacity>
+				<View style={styles.line}></View>
+				<View style={styles.statisticsContainer}>
+					<Text style={styles.comingSoon}>Statistics coming soon</Text>
+				</View>
 			</View>
 		</View>
 	);

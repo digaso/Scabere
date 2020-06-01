@@ -65,4 +65,14 @@ export default StyleSheet.create({
 	blankView2: {
 		flex: 0.6,
 	},
+	comingSoon: {
+		color: "#777",
+		fontSize: 30,
+	},
+	line: {
+		marginTop: "5%",
+		backgroundColor: "#000",
+		height: "0.05%",
+		width: "80%",
+	},
 });

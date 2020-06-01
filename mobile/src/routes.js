@@ -2,6 +2,7 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 
 import StartScreen from "./components/pages/StartScreen";
 import Profile from "./components/pages/Profile";
@@ -9,20 +10,53 @@ import Login from "./components/pages/Login";
 import Register from "./components/pages/Register";
 import CheckAge from "./components/pages/CheckAge";
 import Home from "./components/pages/Home";
+import Tasks from "./components/pages/Tasks";
+import Lists from "./components/pages/Lists";
 import ProfileEdit from "./components/pages/ProfileEdit";
-import { MaterialIcons } from "@expo/vector-icons";
+import List from "./components/pages/List";
+import { ProfileProvider } from "./services/profileContext";
 
 const AppStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
+const ListStack = createStackNavigator();
 const AppTab = createBottomTabNavigator();
 function ProfileNavigator() {
 	return (
-		<ProfileStack.Navigator
-			screenOptions={{ headerShown: false, gestureEnabled: false }}
-		>
-			<ProfileStack.Screen name="Profile" component={Profile} />
-			<ProfileStack.Screen name="ProfileEdit" component={ProfileEdit} />
-		</ProfileStack.Navigator>
+		<ProfileProvider>
+			<ProfileStack.Navigator
+				screenOptions={{ headerShown: false, gestureEnabled: false }}
+			>
+				<ProfileStack.Screen name="Profile" component={Profile} />
+				<ProfileStack.Screen name="ProfileEdit" component={ProfileEdit} />
+			</ProfileStack.Navigator>
+		</ProfileProvider>
+	);
+}
+function ListsNavigator() {
+	return (
+		<ListStack.Navigator>
+			<ListStack.Screen
+				options={{
+					headerStyle: { backgroundColor: "#eee" },
+					headerTitleContainerStyle: {
+						justifyContent: "flex-start",
+						flex: 1,
+					},
+					headerTitleAllowFontScaling: true,
+					headerTitleStyle: {
+						fontSize: 22,
+						fontWeight: "500",
+					},
+				}}
+				name="Lists"
+				component={Lists}
+			/>
+			<ListStack.Screen
+				name="List"
+				options={{ headerShown: false }}
+				component={List}
+			/>
+		</ListStack.Navigator>
 	);
 }
 function Main() {
@@ -41,10 +75,32 @@ function Main() {
 				name="Home"
 				options={{
 					tabBarIcon: ({ color, size }) => (
-						<MaterialIcons name="home" color={color} size={size} />
+						<MaterialIcons name="dashboard" color={color} size={size} />
 					),
 				}}
 				component={Home}
+			/>
+			<AppTab.Screen
+				name="Lists"
+				options={{
+					tabBarIcon: ({ color, size }) => (
+						<MaterialCommunityIcons
+							name="view-split-vertical"
+							color={color}
+							size={size}
+						/>
+					),
+				}}
+				component={ListsNavigator}
+			/>
+			<AppTab.Screen
+				name="Tasks"
+				options={{
+					tabBarIcon: ({ color, size }) => (
+						<MaterialIcons name="event" color={color} size={size} />
+					),
+				}}
+				component={Tasks}
 			/>
 			<AppTab.Screen
 				name="Profile"

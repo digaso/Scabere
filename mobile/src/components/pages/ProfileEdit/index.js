@@ -18,11 +18,14 @@ import Input from "../../utils/Input";
 import styles from "./styles";
 
 import api from "../../../services/api";
+import profileContext from "../../../services/profileContext";
+import { useContext } from "react";
 
 export default function ProfileEdit({ route, navigation }) {
 	const [userData, setUserData] = useState({});
 	const formRef = useRef(null);
 	const [image, setImage] = useState(null);
+	const { toogleEdited, edited } = useContext(profileContext);
 
 	async function getUserData() {
 		const token = await AsyncStorage.getItem("token");
@@ -69,6 +72,8 @@ export default function ProfileEdit({ route, navigation }) {
 				name: `photo.${fileType}`,
 				type: `image/${fileType}`,
 			});
+		} else {
+			formdata.append("photo_url", undefined);
 		}
 		if (!image && !data.name) {
 			navigation.goBack();
@@ -81,7 +86,7 @@ export default function ProfileEdit({ route, navigation }) {
 					Authorization: token,
 				},
 			})
-			.then(() => {
+			.then(async () => {
 				Alert.alert("Updated user successfuly");
 				navigation.navigate("Profile");
 			})
@@ -89,6 +94,7 @@ export default function ProfileEdit({ route, navigation }) {
 				Alert.alert("Sorry, something went wrong with the image you chose");
 				navigation.navigate("Profile");
 			});
+		toogleEdited();
 	}
 	useEffect(() => {
 		getUserData();
