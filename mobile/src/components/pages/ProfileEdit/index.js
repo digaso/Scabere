@@ -19,16 +19,17 @@ import styles from "./styles";
 
 import api from "../../../services/api";
 import profileContext from "../../../services/profileContext";
+import mainContext from "../../../services/mainContext";
 import { useContext } from "react";
 
 export default function ProfileEdit({ route, navigation }) {
 	const [userData, setUserData] = useState({});
+	const { signed, token } = useContext(mainContext);
 	const formRef = useRef(null);
 	const [image, setImage] = useState(null);
 	const { toogleEdited, edited } = useContext(profileContext);
 
 	async function getUserData() {
-		const token = await AsyncStorage.getItem("token");
 		await api
 			.get("/users", { headers: { Authorization: token } })
 			.then((res) => {
@@ -62,7 +63,6 @@ export default function ProfileEdit({ route, navigation }) {
 		}
 	}
 	async function submitForm(data, { reset }) {
-		const token = await AsyncStorage.getItem("token");
 		let formdata = new FormData();
 		if (image) {
 			let uriParts = image.split(".");
@@ -91,7 +91,7 @@ export default function ProfileEdit({ route, navigation }) {
 				navigation.navigate("Profile");
 			})
 			.catch(async (err) => {
-				Alert.alert("Sorry, something went wrong with the image you chose");
+				Alert.alert(err);
 				navigation.navigate("Profile");
 			});
 		toogleEdited();

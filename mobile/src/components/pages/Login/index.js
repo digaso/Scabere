@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useContext } from "react";
 import {
 	View,
 	StatusBar,
@@ -16,25 +16,21 @@ import Input from "../../utils/Input";
 import styles from "./styles";
 import Logo from "../../../../assets/Scabere.png";
 import api from "../../../services/api";
+import mainContext from "../../../services/mainContext";
+import { useEffect } from "react";
 
 export default function Login({ route, navigation }) {
 	const formRef = useRef(null);
+	const { signIn, signed } = useContext(mainContext);
 	function goBack() {
 		navigation.goBack();
 	}
 	async function handleSubmit(data, { reset }) {
-		const log = await api
-			.post("/login", data)
-			.then(async (res) => {
-				await AsyncStorage.setItem("token", res.data.token);
-				navigation.navigate("Main");
-			})
-			.catch((error) => {
-				if (error.response) {
-					Alert.alert(error.response.data.message);
-				}
-			});
+		await signIn(data);
 	}
+	useEffect(() => {
+		if (signed) navigation.navigate("Main");
+	}, [signed]);
 	return (
 		<View style={styles.container}>
 			<StatusBar hidden />

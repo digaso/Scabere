@@ -7,6 +7,7 @@ import {
 	Image,
 	Alert,
 	TouchableOpacity,
+	Animated,
 } from "react-native";
 import styles from "./styles";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -14,39 +15,28 @@ import { MaterialIcons } from "@expo/vector-icons";
 import api from "../../../services/api";
 import { useContext } from "react";
 import profileContext from "../../../services/profileContext";
+import mainContext from "../../../services/mainContext";
 
 export default function Profile({ route, navigation }) {
 	const [data, setData] = useState({});
 	const [image, setImage] = useState("");
+	const { getUserData, signOut } = useContext(mainContext);
 	const { toogleEdited, edited } = useContext(profileContext);
 
-	async function getUserData() {
-		const token = await AsyncStorage.getItem("token");
-		await api
-			.get("/users", { headers: { Authorization: token } })
-			.then((res) => {
-				setData(res.data);
-			})
-			.catch(async (err) => {
-				Alert.alert(
-					err.message,
-					"Sorry something happened with your session. Login again"
-				);
-				await AsyncStorage.removeItem("token");
-				navigation.navigate("StartScreen");
-			});
-		setImage(data.photo_url);
-	}
 	async function handleSignOut() {
-		await AsyncStorage.removeItem("token");
-		navigation.navigate("Login");
+		signOut();
+		navigation.navigate("StartScreen");
 	}
 	function goEdit() {
 		navigation.navigate("ProfileEdit");
 	}
+	async function getData() {
+		const res = await getUserData();
+		setData(res.data);
+		setImage(data.photo_url);
+	}
 	useEffect(() => {
-		getUserData();
-
+		getData();
 		if (edited) toogleEdited();
 	}, [edited]);
 	return (
