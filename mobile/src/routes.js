@@ -15,6 +15,8 @@ import Lists from "./components/pages/Lists";
 import ProfileEdit from "./components/pages/ProfileEdit";
 import List from "./components/pages/List";
 import { ProfileProvider } from "./services/profileContext";
+import { MainProvider } from "./services/mainContext";
+import { ListProvider } from "./services/listContext";
 
 const AppStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
@@ -34,29 +36,31 @@ function ProfileNavigator() {
 }
 function ListsNavigator() {
 	return (
-		<ListStack.Navigator>
-			<ListStack.Screen
-				options={{
-					headerStyle: { backgroundColor: "#eee" },
-					headerTitleContainerStyle: {
-						justifyContent: "flex-start",
-						flex: 1,
-					},
-					headerTitleAllowFontScaling: true,
-					headerTitleStyle: {
-						fontSize: 22,
-						fontWeight: "500",
-					},
-				}}
-				name="Lists"
-				component={Lists}
-			/>
-			<ListStack.Screen
-				name="List"
-				options={{ headerShown: false }}
-				component={List}
-			/>
-		</ListStack.Navigator>
+		<ListProvider>
+			<ListStack.Navigator>
+				<ListStack.Screen
+					options={{
+						headerStyle: { backgroundColor: "#eee" },
+						headerTitleContainerStyle: {
+							justifyContent: "flex-start",
+							flex: 1,
+						},
+						headerTitleAllowFontScaling: true,
+						headerTitleStyle: {
+							fontSize: 22,
+							fontWeight: "500",
+						},
+					}}
+					name="Lists"
+					component={Lists}
+				/>
+				<ListStack.Screen
+					name="List"
+					options={{ headerShown: false }}
+					component={List}
+				/>
+			</ListStack.Navigator>
+		</ListProvider>
 	);
 }
 function Main() {
@@ -117,15 +121,17 @@ function Main() {
 export default function Routes() {
 	return (
 		<NavigationContainer>
-			<AppStack.Navigator
-				screenOptions={{ headerShown: false, gestureEnabled: false }}
-			>
-				<AppStack.Screen name="StartScreen" component={StartScreen} />
-				<AppStack.Screen name="Register" component={Register} />
-				<AppStack.Screen name="Login" component={Login} />
-				<AppStack.Screen name="CheckAge" component={CheckAge} />
-				<AppStack.Screen name="Main" component={Main} />
-			</AppStack.Navigator>
+			<MainProvider>
+				<AppStack.Navigator
+					screenOptions={{ headerShown: false, gestureEnabled: false }}
+				>
+					<AppStack.Screen name="StartScreen" component={StartScreen} />
+					<AppStack.Screen name="Register" component={Register} />
+					<AppStack.Screen name="Login" component={Login} />
+					<AppStack.Screen name="CheckAge" component={CheckAge} />
+					<AppStack.Screen name="Main" component={Main} />
+				</AppStack.Navigator>
+			</MainProvider>
 		</NavigationContainer>
 	);
 }
