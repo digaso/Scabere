@@ -1,21 +1,28 @@
 const List = require("../models/List");
+const Task = require("../models/Task");
 const ParseToStringArray = require("../utils/parseStringtoArray");
 
 module.exports = {
   async index(request, response) {
-    try {
-      const { username } = request.userData;
-      const lists = await List.find({
-        users: {
-          $elemMatch: {
-            $eq: username,
-          },
+    let numTasks = 0;
+    const { username } = request.userData;
+    const lists = await List.find({
+      users: {
+        $elemMatch: {
+          $eq: username,
         },
-      });
-      return response.json(lists);
-    } catch (error) {
-      return response.json({ error });
+      },
+    });
+
+    let finalLists = [];
+    for (let index = 0; index < lists.length; index++) {
+      const list = lists[index].toObject();
+      const idlist = list._id;
+      numtasks = await Task.countDocuments({ idlist });
+      list.numTasks = numTasks;
+      finalLists.push(list);
     }
+    return response.json(finalLists);
   },
   async store(request, response) {
     const { name } = request.body;
