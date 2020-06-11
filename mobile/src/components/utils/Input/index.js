@@ -4,7 +4,16 @@ import { TextInput, Text } from "react-native";
 import { useField } from "@unform/core";
 import { StyleSheet } from "react-native";
 
-function Input({ name, label, style, type, value, colorplaceholder, ...rest }) {
+function Input({
+	name,
+	label,
+	style,
+	type,
+	value,
+	colorplaceholder,
+	focus,
+	...rest
+}) {
 	const inputRef = useRef(null);
 
 	const { fieldName, registerField, defaultValue, error } = useField(name);
@@ -68,6 +77,7 @@ function Input({ name, label, style, type, value, colorplaceholder, ...rest }) {
 						inputRef.current.value = value;
 					}
 				}}
+				autoFocus={focus}
 				{...rest}
 			/>
 		</>
