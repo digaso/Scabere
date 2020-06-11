@@ -19,6 +19,7 @@ export default StyleSheet.create({
 		marginLeft: 8,
 	},
 	taskText: {
+		marginLeft: 5,
 		color: "#aaa",
 		fontWeight: "600",
 	},
@@ -26,5 +27,35 @@ export default StyleSheet.create({
 		fontSize: 24,
 		color: "#9a9aa9",
 		alignSelf: "center",
+	},
+	modal: {
+		backgroundColor: "rgba(0,0,0,0.3)",
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
+	},
+	modalContent: {
+		flexDirection: "column",
+		alignItems: "center",
+		backgroundColor: "#eee",
+		width: 300,
+		height: 100,
+		borderRadius: 7,
+	},
+	modalButtons: {
+		flexDirection: "row",
+		justifyContent: "space-evenly",
+	},
+	textCreateButton: {
+		color: "rgba(0,30,255,0.5)",
+		fontWeight: "600",
+	},
+	textCancelButton: {
+		color: "rgba(255,0,0,0.5)",
+		fontWeight: "600",
+	},
+	button: {
+		marginVertical: 10,
+		marginHorizontal: 10,
 	},
 });

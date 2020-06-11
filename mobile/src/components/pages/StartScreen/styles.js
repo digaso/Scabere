@@ -17,10 +17,12 @@ export default StyleSheet.create({
 		height: 75,
 		borderRadius: 9,
 		justifyContent: "center",
+		alignItems: "center",
 	},
 	buttonText: {
 		color: "#fff",
 		textAlign: "center",
+		alignSelf: "center",
 		fontSize: 31,
 	},
 	link: {
