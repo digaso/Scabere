@@ -8,6 +8,7 @@ import {
 	TouchableOpacity,
 	Modal,
 	Dimensions,
+	AsyncStorage,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import styles from "./styles";
@@ -87,13 +88,14 @@ export default function Lists({ route, navigation }) {
 					</View>
 				</View>
 			</Modal>
-			<ScrollView showsHorizontalScrollIndicator={false}>
+			<ScrollView showsVerticalScrollIndicator={false}>
 				{data.length > 0 ? (
 					data.map((item, index) => (
 						<TouchableOpacity
 							key={index}
 							style={styles.list}
-							onPress={() => {
+							onPress={async () => {
+								await AsyncStorage.setItem("listName", item.name);
 								enterList(item._id);
 							}}
 						>
@@ -114,7 +116,7 @@ export default function Lists({ route, navigation }) {
 			<TouchableOpacity
 				style={{
 					position: "absolute",
-					top: screenHeight - 158,
+					top: screenHeight - 168,
 					right: 28,
 					flexDirection: "row",
 					width: 50,

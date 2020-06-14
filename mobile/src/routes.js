@@ -37,7 +37,7 @@ function ProfileNavigator() {
 function ListsNavigator() {
 	return (
 		<ListProvider>
-			<ListStack.Navigator>
+			<ListStack.Navigator screenOptions={{ gestureEnabled: false }}>
 				<ListStack.Screen
 					options={{
 						headerStyle: { backgroundColor: "#eee" },

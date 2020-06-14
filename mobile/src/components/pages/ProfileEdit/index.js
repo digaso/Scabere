@@ -40,7 +40,6 @@ export default function ProfileEdit({ route, navigation }) {
 					err.message,
 					"Sorry something happened with your session. Login again"
 				);
-				await AsyncStorage.removeItem("token");
 				navigation.navigate("StartScreen");
 			});
 	}
