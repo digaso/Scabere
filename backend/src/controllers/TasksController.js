@@ -48,7 +48,15 @@ module.exports = {
     console.log(`task updated by ${username}`);
     return response.status(200).json();
   },
-
+  async checkTask(request, response) {
+    const _id = request.params.id;
+    const { username } = request.userData;
+    const task = await Task.findOne({ _id });
+    const { done } = task;
+    await Task.findOneAndUpdate({ _id }, { done: !done }).then((res) => {
+      return response.status(200).json();
+    });
+  },
   async listTasks(request, response) {
     const idlist = request.params.id;
     const listTasks = await Task.find({

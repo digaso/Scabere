@@ -36,5 +36,6 @@ routes.get("/tasks", checkAuth, getUserLists, TasksController.index);
 routes.post("/tasks", checkAuth, TasksController.store);
 routes.put("/tasks/:id", checkAuth, TasksController.update);
 routes.delete("/tasks/:id", checkAuth, TasksController.destroy);
+routes.post("/tasks/check/:id", checkAuth, TasksController.checkTask);
 
 module.exports = routes;
