@@ -11,7 +11,10 @@ function Input({
 	type,
 	value,
 	colorplaceholder,
+	multiline,
 	focus,
+	stylesinput,
+	numberoflines,
 	...rest
 }) {
 	const inputRef = useRef(null);
@@ -60,12 +63,17 @@ function Input({
 	} else {
 		color = colorplaceholder;
 	}
+	let inputstyle;
+	if (!stylesinput) inputstyle = styles.input;
+	else inputstyle = stylesinput;
 
 	return (
 		<>
 			<TextInput
-				style={styles.input}
+				multiline={multiline ? multiline : false}
+				style={inputstyle}
 				ref={inputRef}
+				numberOfLines={numberoflines ? numberoflines : 1}
 				secureTextEntry={ispassword}
 				keyboardAppearance="dark"
 				keyboardType={keyboardtype}

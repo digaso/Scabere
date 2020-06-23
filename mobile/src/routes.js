@@ -12,11 +12,13 @@ import CheckAge from "./components/pages/CheckAge";
 import Home from "./components/pages/Home";
 import Tasks from "./components/pages/Tasks";
 import Lists from "./components/pages/Lists";
+import NewTask from "./components/pages/NewTask";
 import ProfileEdit from "./components/pages/ProfileEdit";
 import List from "./components/pages/List";
-import { ProfileProvider } from "./services/profileContext";
-import { MainProvider } from "./services/mainContext";
-import { ListProvider } from "./services/listContext";
+import { ProfileProvider } from "./services/contexts/profileContext";
+import { MainProvider } from "./services/contexts/mainContext";
+import { ListProvider } from "./services/contexts/listContext";
+import { TaskProvider } from "./services/contexts/taskContext";
 
 const AppStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
@@ -37,29 +39,36 @@ function ProfileNavigator() {
 function ListsNavigator() {
 	return (
 		<ListProvider>
-			<ListStack.Navigator screenOptions={{ gestureEnabled: false }}>
-				<ListStack.Screen
-					options={{
-						headerStyle: { backgroundColor: "#eee" },
-						headerTitleContainerStyle: {
-							justifyContent: "flex-start",
-							flex: 1,
-						},
-						headerTitleAllowFontScaling: true,
-						headerTitleStyle: {
-							fontSize: 22,
-							fontWeight: "500",
-						},
-					}}
-					name="Lists"
-					component={Lists}
-				/>
-				<ListStack.Screen
-					name="List"
-					options={{ headerShown: false }}
-					component={List}
-				/>
-			</ListStack.Navigator>
+			<TaskProvider>
+				<ListStack.Navigator screenOptions={{ gestureEnabled: false }}>
+					<ListStack.Screen
+						options={{
+							headerStyle: { backgroundColor: "#eee" },
+							headerTitleContainerStyle: {
+								justifyContent: "flex-start",
+								flex: 1,
+							},
+							headerTitleAllowFontScaling: true,
+							headerTitleStyle: {
+								fontSize: 22,
+								fontWeight: "500",
+							},
+						}}
+						name="Lists"
+						component={Lists}
+					/>
+					<ListStack.Screen
+						name="List"
+						options={{ headerShown: false }}
+						component={List}
+					/>
+					<ListStack.Screen
+						name="NewTask"
+						options={{ headerShown: false }}
+						component={NewTask}
+					/>
+				</ListStack.Navigator>
+			</TaskProvider>
 		</ListProvider>
 	);
 }
