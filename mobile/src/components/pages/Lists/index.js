@@ -16,8 +16,8 @@ import Animated from "react-native-reanimated";
 import api from "../../../services/api";
 import Input from "../../utils/Input";
 import PlusImage from "../../../../assets/add_circle-24px.png";
-import mainContext from "../../../services/mainContext";
-import listContext from "../../../services/listContext";
+import mainContext from "../../../services/contexts/mainContext";
+import listContext from "../../../services/contexts/listContext";
 import { Form } from "@unform/mobile";
 import { Scope } from "@unform/core";
 
