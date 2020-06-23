@@ -12,6 +12,12 @@ export default StyleSheet.create({
 		padding: 2,
 		marginHorizontal: 15,
 		borderRadius: 7,
+		shadowOffset: {
+			width: 3,
+			height: 3,
+		},
+		shadowColor: "#000",
+		shadowOpacity: 0.2,
 	},
 	listText: {
 		fontSize: 20,

@@ -116,11 +116,17 @@ export default function Lists({ route, navigation }) {
 			<TouchableOpacity
 				style={{
 					position: "absolute",
-					top: screenHeight - 168,
+					top: screenHeight - 178,
 					right: 28,
 					flexDirection: "row",
 					width: 50,
 					alignSelf: "flex-end",
+					shadowOffset: {
+						width: 3,
+						height: 3,
+					},
+					shadowColor: "#000",
+					shadowOpacity: 0.2,
 				}}
 				onPress={() => setVisible(true)}
 			>
