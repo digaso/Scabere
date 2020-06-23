@@ -19,8 +19,10 @@ module.exports = {
       const list = lists[index].toObject();
       const idlist = list._id;
       numtasks = await Task.countDocuments({ idlist });
-      list.numTasks = numTasks;
+      list.numTasks = numtasks;
+      console.log(numtasks);
       finalLists.push(list);
+      console.log(finalLists);
     }
     return response.json(finalLists);
   },
@@ -39,8 +41,16 @@ module.exports = {
     const _id = request.params.id;
     const { username } = request.userData;
     const list = await List.findById({ _id });
+    const tasks = await Task.find({
+      idlist: _id,
+    });
     if (!list) return response.status(404).json({ message: "List not found" });
     if (list.createdby == username) {
+      if (tasks.length >= 0) {
+        tasks.map((item, index) => {
+          item.remove();
+        });
+      }
       await List.deleteOne({ _id });
       return response.status(200).json({ message: "List deleted" });
     } else {
