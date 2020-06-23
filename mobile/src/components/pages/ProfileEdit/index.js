@@ -18,8 +18,8 @@ import Input from "../../utils/Input";
 import styles from "./styles";
 
 import api from "../../../services/api";
-import profileContext from "../../../services/profileContext";
-import mainContext from "../../../services/mainContext";
+import profileContext from "../../../services/contexts/profileContext";
+import mainContext from "../../../services/contexts/mainContext";
 import { useContext } from "react";
 
 export default function ProfileEdit({ route, navigation }) {

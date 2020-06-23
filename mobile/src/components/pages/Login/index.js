@@ -16,7 +16,7 @@ import Input from "../../utils/Input";
 import styles from "./styles";
 import Logo from "../../../../assets/Scabere.png";
 import api from "../../../services/api";
-import mainContext from "../../../services/mainContext";
+import mainContext from "../../../services/contexts/mainContext";
 import { useEffect } from "react";
 
 export default function Login({ route, navigation }) {

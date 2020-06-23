@@ -14,8 +14,8 @@ import { MaterialIcons } from "@expo/vector-icons";
 
 import api from "../../../services/api";
 import { useContext } from "react";
-import profileContext from "../../../services/profileContext";
-import mainContext from "../../../services/mainContext";
+import profileContext from "../../../services/contexts/profileContext";
+import mainContext from "../../../services/contexts/mainContext";
 
 export default function Profile({ route, navigation }) {
 	const [data, setData] = useState({});
