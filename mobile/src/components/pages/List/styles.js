@@ -27,25 +27,6 @@ export default StyleSheet.create({
 		marginHorizontal: 10,
 		marginVertical: 10,
 	},
-	task: {
-		flex: 1,
-		justifyContent: "flex-start",
-		marginVertical: 8,
-		marginHorizontal: 8,
-		backgroundColor: "#eee",
-		paddingVertical: 8,
-		paddingLeft: 8,
-		borderRadius: 4,
-		shadowOffset: {
-			width: 3,
-			height: 3,
-		},
-		shadowColor: "#000",
-		shadowOpacity: 0.2,
-	},
-	taskText: {
-		fontSize: 18,
-	},
 	modal: {
 		backgroundColor: "rgba(0,0,0,0.3)",
 		flex: 1,

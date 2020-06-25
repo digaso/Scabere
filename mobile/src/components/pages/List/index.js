@@ -9,19 +9,19 @@ import {
 	Dimensions,
 	Image,
 	Animated,
+	Alert,
 } from "react-native";
 import PlusImage from "../../../../assets/add_circle-24px.png";
 import mainContext from "../../../services/contexts/mainContext";
 import listContext from "../../../services/contexts/listContext";
+import taskContext from "../../../services/contexts/taskContext";
 import { MaterialIcons } from "@expo/vector-icons";
 import styles from "./styles";
-import { Modal } from "react-native-paper";
-import { Form } from "unform";
-import Input from "../../utils/Input";
+import TaskItem from "../../utils/TaskItem";
+import { FlatList } from "react-native-gesture-handler";
 
 export default function List({ route, navigation }) {
 	const {
-		idlist,
 		clean,
 		tasks,
 		getTasksList,
@@ -29,26 +29,27 @@ export default function List({ route, navigation }) {
 		toogleEdited,
 		deleteList,
 	} = useContext(listContext);
+	const { taskEdited, enterTask, idtask, deleteTask } = useContext(taskContext);
+	const [listName, setListName] = useState("");
+	const screenHeight = Math.round(Dimensions.get("window").height);
 	const colors = useRef(
 		Array.from({ length: tasks.length }).fill(new Animated.Value(0))
 	);
-	const [visible, setVisible] = useState(false);
-	const [listName, setListName] = useState("");
-	const screenWidth = Math.round(Dimensions.get("window").width);
-	const screenHeight = Math.round(Dimensions.get("window").height);
-	const formRef = useRef(null);
+	const tasksFilter = () => {};
 
 	async function getListName() {
 		setListName(await AsyncStorage.getItem("listName"));
 	}
 	async function asyncGetTasks() {
 		await getTasksList();
-		console.log(tasks);
 	}
 	useEffect(() => {
 		getListName();
 		asyncGetTasks();
-	}, [edited]);
+		if (idtask) {
+			navigation.navigate("Task");
+		}
+	}, [edited, taskEdited, idtask]);
 	return (
 		<View style={styles.container}>
 			<StatusBar hidden />
@@ -63,9 +64,25 @@ export default function List({ route, navigation }) {
 				</TouchableOpacity>
 				<TouchableOpacity
 					onPress={() => {
-						deleteList();
-						clean();
-						navigation.goBack();
+						Alert.alert(
+							"Are you sure you want to delete this list?",
+							"",
+							[
+								{
+									text: "Cancel",
+									style: "cancel",
+								},
+								{
+									text: "OK",
+									onPress: () => {
+										deleteList();
+										clean();
+										navigation.goBack();
+									},
+								},
+							],
+							{ cancelable: true }
+						);
 					}}
 				>
 					<MaterialIcons name="delete" size={32} color="#bc0000" />
@@ -74,73 +91,24 @@ export default function List({ route, navigation }) {
 			<View style={styles.titleContent}>
 				<Text style={styles.titleText}>{listName}</Text>
 			</View>
-			<ScrollView style={{ height: screenHeight }}>
-				{tasks.length > 0 ? (
-					tasks.map((item, index) => (
-						<TouchableOpacity key={index} style={styles.task}>
-							<View style={{ flexDirection: "row" }}>
-								<TouchableOpacity
-									style={{ alignSelf: "center", marginRight: 8 }}
-									onPress={() => {
-										console.log(colors.current[index]);
+			{tasks.length > 0 ? (
+				<FlatList
+					data={tasks}
+					renderItem={(item, index) => {
+						return (
+							<TaskItem
+								OnSwipeRight={() => deleteTask(item.item._id)}
+								{...{ item }}
+							/>
+						);
+					}}
+				/>
+			) : (
+				<View style={styles.emptyContent}>
+					<Text style={styles.emptyText}>This list don't have tasks yet</Text>
+				</View>
+			)}
 
-										Animated.timing(colors.current[index], {
-											toValue: 1,
-											duration: 1000,
-										}).start();
-									}}
-								>
-									<Animated.View
-										style={{
-											borderColor: "#000",
-											borderWidth: 3,
-											borderRadius: 100,
-										}}
-									>
-										<Animated.View
-											style={{
-												backgroundColor: "#000",
-												height: 22,
-												width: 22,
-												borderRadius: 100,
-												opacity: colors.current[index],
-											}}
-											nativeID={item._id}
-										></Animated.View>
-									</Animated.View>
-								</TouchableOpacity>
-								<View>
-									<Text style={styles.taskText}>{item.title}</Text>
-								</View>
-							</View>
-
-							<Animated.View
-								style={{
-									position: "absolute",
-									alignItems: "center",
-									alignContent: "center",
-									opacity: 0.5,
-									alignSelf: "center",
-								}}
-							>
-								<Text
-									style={{
-										color: "#000",
-										opacity: 0,
-										fontSize: 32,
-									}}
-								>
-									Done!!
-								</Text>
-							</Animated.View>
-						</TouchableOpacity>
-					))
-				) : (
-					<View style={styles.emptyContent}>
-						<Text style={styles.emptyText}>This list don't have tasks yet</Text>
-					</View>
-				)}
-			</ScrollView>
 			<TouchableOpacity
 				style={{
 					position: "absolute",
