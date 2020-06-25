@@ -19,10 +19,12 @@ import { ProfileProvider } from "./services/contexts/profileContext";
 import { MainProvider } from "./services/contexts/mainContext";
 import { ListProvider } from "./services/contexts/listContext";
 import { TaskProvider } from "./services/contexts/taskContext";
+import Task from "./components/pages/Task";
 
 const AppStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
 const ListStack = createStackNavigator();
+const TaskStack = createStackNavigator();
 const AppTab = createBottomTabNavigator();
 function ProfileNavigator() {
 	return (
@@ -34,6 +36,31 @@ function ProfileNavigator() {
 				<ProfileStack.Screen name="ProfileEdit" component={ProfileEdit} />
 			</ProfileStack.Navigator>
 		</ProfileProvider>
+	);
+}
+function TaskNavigator() {
+	return (
+		<TaskProvider>
+			<TaskStack.Navigator>
+				<TaskStack.Screen
+					name="All Tasks"
+					options={{
+						headerStyle: { backgroundColor: "#eee" },
+						headerTitleContainerStyle: {
+							justifyContent: "flex-start",
+							flex: 1,
+						},
+						headerTitleAllowFontScaling: true,
+						headerTitleStyle: {
+							fontSize: 22,
+							fontWeight: "500",
+						},
+					}}
+					component={Tasks}
+				/>
+				<TaskStack.Screen name="Task" component={Task} />
+			</TaskStack.Navigator>
+		</TaskProvider>
 	);
 }
 function ListsNavigator() {
@@ -66,6 +93,11 @@ function ListsNavigator() {
 						name="NewTask"
 						options={{ headerShown: false }}
 						component={NewTask}
+					/>
+					<ListStack.Screen
+						name="Task"
+						options={{ headerShown: false }}
+						component={Task}
 					/>
 				</ListStack.Navigator>
 			</TaskProvider>
@@ -113,7 +145,7 @@ function Main() {
 						<MaterialIcons name="event" color={color} size={size} />
 					),
 				}}
-				component={Tasks}
+				component={TaskNavigator}
 			/>
 			<AppTab.Screen
 				name="Profile"
