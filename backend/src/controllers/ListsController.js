@@ -20,9 +20,7 @@ module.exports = {
       const idlist = list._id;
       numtasks = await Task.countDocuments({ idlist });
       list.numTasks = numtasks;
-      console.log(numtasks);
       finalLists.push(list);
-      console.log(finalLists);
     }
     return response.json(finalLists);
   },

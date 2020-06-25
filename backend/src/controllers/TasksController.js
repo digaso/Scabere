@@ -19,10 +19,13 @@ module.exports = {
   async store(request, response) {
     const { username } = request.userData;
     const idlist = request.headers.idlist;
-    const { title } = request.body;
+    const { title, description, location, deadline_date } = request.body;
     const task = Task.create({
       username,
       title,
+      deadline_date,
+      description,
+      location,
       idlist,
     });
     console.log(`task created by ${username}`);
