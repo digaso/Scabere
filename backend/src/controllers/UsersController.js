@@ -126,10 +126,10 @@ module.exports = {
     const newphoto_url = request.file ? request.file.location : photo_url;
 
     const filename = getFileName(photo_url);
-    if (name == null || name == "" || name == undefined) {
+    if (name === null || name === "" || name === undefined) {
       name = user.name;
     }
-    if (newphoto_url != "defaultpic.jpg" && request.file) {
+    if (filename != "defaultpic.png" && request.file) {
       const res = deleteFile(filename);
     }
     await user
