@@ -13,9 +13,11 @@ import taskContext from "../../../services/contexts/taskContext";
 import { Form } from "@unform/mobile";
 import { MaterialIcons } from "@expo/vector-icons";
 import { TextInput } from "react-native";
+import listContext from "../../../services/contexts/listContext";
 
 export default function NewTask({ route, navigation }) {
 	const formRef = useRef(null);
+	const { idlist } = useContext(listContext);
 	const { addTask, toogleEdited } = useContext(taskContext);
 	return (
 		<View style={styles.container}>
@@ -34,8 +36,8 @@ export default function NewTask({ route, navigation }) {
 						ref={formRef}
 						onSubmit={async (data, { reset }) => {
 							await addTask(data);
-							navigation.navigate("List");
 							reset();
+							navigation.goBack();
 						}}
 					>
 						<Input name="title" label="Task title" focus={true} />

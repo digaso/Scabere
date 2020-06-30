@@ -6,4 +6,8 @@ export default StyleSheet.create({
 		flex: 1,
 		alignItems: "center",
 	},
+	scabereText: {
+		color: "white",
+		fontSize: 42,
+	},
 });

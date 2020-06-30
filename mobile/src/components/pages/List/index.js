@@ -8,7 +8,6 @@ import {
 	AsyncStorage,
 	Dimensions,
 	Image,
-	Animated,
 	Alert,
 } from "react-native";
 import PlusImage from "../../../../assets/add_circle-24px.png";
@@ -18,24 +17,25 @@ import taskContext from "../../../services/contexts/taskContext";
 import { MaterialIcons } from "@expo/vector-icons";
 import styles from "./styles";
 import TaskItem from "../../utils/TaskItem";
+import Animated from "react-native-reanimated";
 import { FlatList } from "react-native-gesture-handler";
 
 export default function List({ route, navigation }) {
 	const {
 		clean,
-		tasks,
 		getTasksList,
 		edited,
 		toogleEdited,
 		deleteList,
+		doneTasks,
+		todoTasks,
 	} = useContext(listContext);
-	const { taskEdited, enterTask, idtask, deleteTask } = useContext(taskContext);
+	const { taskEdited, idtask, deleteTask } = useContext(taskContext);
 	const [listName, setListName] = useState("");
+	const [screenTasks, setScreenTasks] = useState([{}]);
+	const [done, setDone] = useState(false);
+
 	const screenHeight = Math.round(Dimensions.get("window").height);
-	const colors = useRef(
-		Array.from({ length: tasks.length }).fill(new Animated.Value(0))
-	);
-	const tasksFilter = () => {};
 
 	async function getListName() {
 		setListName(await AsyncStorage.getItem("listName"));
@@ -44,20 +44,21 @@ export default function List({ route, navigation }) {
 		await getTasksList();
 	}
 	useEffect(() => {
-		getListName();
+		if (listName) getListName();
 		asyncGetTasks();
+		setScreenTasks(done ? doneTasks : todoTasks);
 		if (idtask) {
 			navigation.navigate("Task");
 		}
-	}, [edited, taskEdited, idtask]);
+	}, [edited, taskEdited, idtask, done]);
 	return (
 		<View style={styles.container}>
 			<StatusBar hidden />
 			<View style={styles.buttonsContainer}>
 				<TouchableOpacity
 					onPress={() => {
-						clean();
 						navigation.goBack();
+						clean();
 					}}
 				>
 					<MaterialIcons name="arrow-back" size={32} />
@@ -91,9 +92,48 @@ export default function List({ route, navigation }) {
 			<View style={styles.titleContent}>
 				<Text style={styles.titleText}>{listName}</Text>
 			</View>
-			{tasks.length > 0 ? (
+
+			<View style={styles.midButtonsContainer}>
+				<View
+					style={{
+						opacity: 1,
+						backgroundColor: done ? null : "#dddddd",
+						borderRadius: 7,
+						padding: 8,
+						opacity: 1,
+					}}
+				>
+					<TouchableOpacity
+						onPress={() => {
+							setDone(false);
+							toogleEdited();
+						}}
+					>
+						<Text>To do</Text>
+					</TouchableOpacity>
+				</View>
+				<View
+					style={{
+						opacity: 1,
+						backgroundColor: done ? "#dddddd" : null,
+						borderRadius: 7,
+						padding: 8,
+						opacity: 1,
+					}}
+				>
+					<TouchableOpacity
+						onPress={() => {
+							setDone(true);
+							toogleEdited();
+						}}
+					>
+						<Text style={styles.doneButton}>Done</Text>
+					</TouchableOpacity>
+				</View>
+			</View>
+			{screenTasks.length > 0 ? (
 				<FlatList
-					data={tasks}
+					data={screenTasks}
 					renderItem={(item, index) => {
 						return (
 							<TaskItem
@@ -118,7 +158,9 @@ export default function List({ route, navigation }) {
 					width: 50,
 					alignSelf: "flex-end",
 				}}
-				onPress={() => navigation.navigate("NewTask")}
+				onPress={() => {
+					navigation.navigate("NewTask");
+				}}
 			>
 				<Image source={PlusImage} />
 			</TouchableOpacity>

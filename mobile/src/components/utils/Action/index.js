@@ -14,7 +14,6 @@ import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 const Action = ({ x, deleteOpacity, backgroundColor, label, OnPress }) => {
 	const size = x;
-	const borderRadius = divide(size, 2);
 	const iconOpacity = interpolate(size, {
 		inputRange: [40, 60],
 		outputRange: [1, 0],
@@ -33,7 +32,6 @@ const Action = ({ x, deleteOpacity, backgroundColor, label, OnPress }) => {
 				alignItems: "center",
 				height: size,
 				width: size,
-				borderRadius,
 			}}
 		>
 			<Animated.View

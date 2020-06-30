@@ -27,30 +27,10 @@ export default StyleSheet.create({
 		marginHorizontal: 10,
 		marginVertical: 10,
 	},
-	modal: {
-		backgroundColor: "rgba(0,0,0,0.3)",
-		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
-	},
-	modalContent: {
-		flexDirection: "column",
-		alignItems: "center",
-		backgroundColor: "#eee",
-		width: 300,
-		height: 100,
-		borderRadius: 7,
-	},
-	modalButtons: {
+	midButtonsContainer: {
 		flexDirection: "row",
-		justifyContent: "space-evenly",
-	},
-	textCreateButton: {
-		color: "rgba(0,30,255,0.5)",
-		fontWeight: "600",
-	},
-	textCancelButton: {
-		color: "rgba(255,0,0,0.5)",
-		fontWeight: "600",
+		alignItems: "center",
+		justifyContent: "space-around",
+		flex: 0.12,
 	},
 });

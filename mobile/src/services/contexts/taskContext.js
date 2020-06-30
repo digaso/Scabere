@@ -12,25 +12,34 @@ const taskContext = createContext({
 	enterTask: this.enterTask,
 	clean: this.clean,
 	task: {},
+	tasks: [{}],
+	getAllTasks: this.getAllTasks,
 	deleteTask: this.deleteTask,
+	doneTasks: [{}],
+	todoTasks: [{}],
 });
 
 export const TaskProvider = ({ children }) => {
 	const { token } = useContext(mainContext);
 	const { idlist, getTasksList } = useContext(listContext);
 	const [task, setTask] = useState({});
+	const [tasks, setTasks] = useState([{}]);
 	const [idtask, setiIdTask] = useState(null);
+	const [todoTasks, setToDoTasks] = useState([{}]);
+	const [doneTasks, setDoneTasks] = useState([{}]);
 	const [taskEdited, setEdited] = useState(false);
+
 	function toogleEdited() {
 		setEdited(!taskEdited);
 	}
 
 	async function addTask(props) {
+		console.log(idlist, "fasasd");
 		await api
 			.post("/tasks", props, {
 				headers: {
 					Authorization: token,
-					idlist: idlist ? idlist : null,
+					idlist: idlist,
 				},
 			})
 			.then(() => {
@@ -51,6 +60,25 @@ export const TaskProvider = ({ children }) => {
 				getTasksList();
 			});
 	}
+	async function getAllTasks() {
+		await api
+			.get("/tasks", {
+				headers: {
+					Authorization: token,
+				},
+			})
+			.then((res) => {
+				const tasksToDoFilter = (item) => {
+					return item.done === false;
+				};
+				const tasksDoneFilter = (item) => {
+					return item.done === true;
+				};
+				setTasks(res.data);
+				setToDoTasks(tasks.filter(tasksToDoFilter));
+				setDoneTasks(tasks.filter(tasksDoneFilter));
+			});
+	}
 	function enterTask(props) {
 		setiIdTask(props._id);
 		setTask(props);
@@ -62,10 +90,14 @@ export const TaskProvider = ({ children }) => {
 				taskEdited,
 				idtask,
 				task,
+				tasks,
+				doneTasks,
+				todoTasks,
 				enterTask,
 				toogleEdited,
 				addTask,
 				deleteTask,
+				getAllTasks,
 			}}
 		>
 			{children}

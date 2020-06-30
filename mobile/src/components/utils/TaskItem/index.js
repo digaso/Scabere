@@ -47,11 +47,11 @@ function TaskItem({ item, OnSwipeLeft, OnSwipeRight }) {
 	const translateX = useValue(0);
 	const offSetX = useValue(0);
 	const height = useValue(50);
-	const snapPoints = [-width, -100, 0, 100];
+	const snapPoints = [-100, 0, 100];
 	const clock = useClock();
 	const to = snapPoint(translateX, velocity.x, snapPoints);
 	const shouldRemove = eq(to, -width);
-	const shouldComplete = eq(to, 100);
+	const shouldComplete = eq(to, width);
 	useCode(
 		() => [
 			cond(
@@ -61,20 +61,16 @@ function TaskItem({ item, OnSwipeLeft, OnSwipeRight }) {
 			cond(eq(state, State.END), [
 				set(translateX, timing({ clock, from: translateX, to })),
 				set(offSetX, translateX),
-				cond(shouldRemove, [
-					set(height, timing({ from: height, to: 0 })),
-					cond(not(clockRunning(clock)), call([], OnSwipeRight)),
-				]),
 			]),
 		],
-		[OnSwipeRight]
+		[]
 	);
 	return (
 		<Animated.View>
 			<View style={styles.background}>
 				<Action
 					x={abs(translateX)}
-					backgroundColor="#f60"
+					backgroundColor="#0a5"
 					OnPress={() => console.log("asad")}
 					label="Complete"
 				/>
