@@ -18,7 +18,7 @@ import listContext from "../../../services/contexts/listContext";
 export default function NewTask({ route, navigation }) {
 	const formRef = useRef(null);
 	const { idlist } = useContext(listContext);
-	const { addTask, toogleEdited } = useContext(taskContext);
+	const { addTask, toogleTaskEdited } = useContext(taskContext);
 	return (
 		<View style={styles.container}>
 			<StatusBar hidden />
@@ -35,7 +35,7 @@ export default function NewTask({ route, navigation }) {
 					<Form
 						ref={formRef}
 						onSubmit={async (data, { reset }) => {
-							await addTask(data);
+							addTask(data);
 							reset();
 							navigation.goBack();
 						}}
@@ -59,7 +59,12 @@ export default function NewTask({ route, navigation }) {
 						>
 							<Text style={styles.textCreate}>Create</Text>
 						</TouchableOpacity>
-						<TouchableOpacity style={styles.buttonCancel}>
+						<TouchableOpacity
+							style={styles.buttonCancel}
+							onPress={() => {
+								navigation.goBack();
+							}}
+						>
 							<Text style={styles.textCancel}>Cancel</Text>
 						</TouchableOpacity>
 					</View>

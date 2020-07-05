@@ -6,6 +6,7 @@ import {
 	TouchableOpacity,
 	Picker,
 	Alert,
+	Modal,
 } from "react-native";
 import styles from "./styles";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -28,6 +29,7 @@ export default function CheckAge({ route, navigation }) {
 		"November",
 		"December",
 	]);
+	const [visible, setVisible] = useState(false);
 	const [years, setYears] = useState([]);
 	const [selectedDay, setSelectedDay] = useState(1);
 	const [selectedMonth, setSelectedMonth] = useState(0);
@@ -67,7 +69,7 @@ export default function CheckAge({ route, navigation }) {
 		if (age < 16) {
 			Alert.alert(
 				"Sorry :(",
-				"Due to legal stuff we can't store data from people younger than 16 years old."
+				"Due to legalities we can't store data from people younger than 16 years old."
 			);
 			return;
 		}
@@ -90,6 +92,43 @@ export default function CheckAge({ route, navigation }) {
 	}, [selectedMonth, selectedYear]);
 	return (
 		<View style={styles.container}>
+			<Modal animated={true} animationType={"slide"} visible={visible}>
+				<View
+					style={{
+						flex: 1,
+						backgroundColor: "#fff",
+						justifyContent: "space-between",
+						alignItems: "center",
+					}}
+				>
+					<Text style={{ fontSize: 35 }}>Help</Text>
+					<View style={{ marginHorizontal: 16 }}>
+						<Text style={{ fontSize: 20 }}>
+							In this page you need to input your birth date.
+						</Text>
+						<Text style={{ fontSize: 20 }}>
+							We need this data because we can't store data from people younger
+							than 16.
+						</Text>
+						<Text style={{ fontSize: 20 }}>
+							If you want to see more information, please go to www.iubenda.com
+						</Text>
+					</View>
+					<TouchableOpacity
+						style={{
+							backgroundColor: "rgba(255,0,0,0.2)",
+							justifyContent: "center",
+							alignItems: "center",
+							borderRadius: 10,
+							padding: 20,
+							marginBottom: 32,
+						}}
+						onPress={() => setVisible(false)}
+					>
+						<Text style={{ color: "#d00" }}>Cancel</Text>
+					</TouchableOpacity>
+				</View>
+			</Modal>
 			<TouchableOpacity onPress={goBack}>
 				<MaterialIcons name="arrow-back" size={28} />
 			</TouchableOpacity>
@@ -144,6 +183,22 @@ export default function CheckAge({ route, navigation }) {
 					}}
 				>
 					<Text style={styles.buttonText}>Next</Text>
+				</TouchableOpacity>
+			</View>
+			<View
+				style={{
+					flexDirection: "row",
+					justifyContent: "space-between",
+				}}
+			>
+				<View style={{ flex: 0.7 }} />
+				<TouchableOpacity
+					style={{ alignSelf: "flex-end", marginRight: 16, marginBottom: 16 }}
+					onPress={() => {
+						setVisible(true);
+					}}
+				>
+					<MaterialIcons size={32} name="question-mark" />
 				</TouchableOpacity>
 			</View>
 		</View>

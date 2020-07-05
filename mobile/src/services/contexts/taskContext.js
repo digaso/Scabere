@@ -3,25 +3,27 @@ import api from "../api";
 import mainContext from "./mainContext";
 import listContext from "./listContext";
 import { useNavigation } from "@react-navigation/native";
+import { Alert } from "react-native";
 
 const taskContext = createContext({
 	taskEdited: false,
 	idtask: null,
-	toogleEdited: this.toogleEdited,
+	toogleTaskEdited: this.toogleTaskEdited,
 	addTask: this.addTask,
 	enterTask: this.enterTask,
 	clean: this.clean,
 	task: {},
 	tasks: [{}],
-	getAllTasks: this.getAllTasks,
 	deleteTask: this.deleteTask,
 	doneTasks: [{}],
 	todoTasks: [{}],
+	checkTask: this.checkTask,
+	updateTask: this.updateTask,
 });
 
 export const TaskProvider = ({ children }) => {
 	const { token } = useContext(mainContext);
-	const { idlist, getTasksList } = useContext(listContext);
+	const { idlist, getTasksList, toogleEdited } = useContext(listContext);
 	const [task, setTask] = useState({});
 	const [tasks, setTasks] = useState([{}]);
 	const [idtask, setiIdTask] = useState(null);
@@ -29,12 +31,34 @@ export const TaskProvider = ({ children }) => {
 	const [doneTasks, setDoneTasks] = useState([{}]);
 	const [taskEdited, setEdited] = useState(false);
 
-	function toogleEdited() {
-		setEdited(!taskEdited);
+	function toogleTaskEdited(props) {
+		if (props) setEdited(props);
+		else setEdited(!taskEdited);
 	}
-
+	async function checkTask(props) {
+		await api
+			.post("/tasks/check/" + props, null, {
+				headers: {
+					Authorization: token,
+				},
+			})
+			.then((res) => {
+				setEdited(true);
+			});
+	}
+	async function updateTask(props) {
+		await api
+			.put("/tasks/" + idtask, props, {
+				headers: {
+					Authorization: token,
+				},
+			})
+			.then(() => {
+				toogleTaskEdited(true);
+				console.log(idtask);
+			});
+	}
 	async function addTask(props) {
-		console.log(idlist, "fasasd");
 		await api
 			.post("/tasks", props, {
 				headers: {
@@ -43,42 +67,30 @@ export const TaskProvider = ({ children }) => {
 				},
 			})
 			.then(() => {
-				toogleEdited();
+				toogleEdited(true);
+				Alert.alert("Task Successfuly added", "", [
+					{
+						text: "Ok",
+						onPress: () => {
+							toogleEdited();
+						},
+					},
+				]);
 			});
 	}
 	function clean() {
 		setiIdTask(null);
 	}
 	async function deleteTask(props) {
-		await api
-			.delete("/tasks/" + props.toString(), {
-				headers: {
-					Authorization: token,
-				},
-			})
-			.then((res) => {
-				getTasksList();
-			});
+		await api.delete("/tasks/" + props, {
+			headers: {
+				Authorization: token,
+			},
+		});
+
+		toogleTaskEdited(true);
 	}
-	async function getAllTasks() {
-		await api
-			.get("/tasks", {
-				headers: {
-					Authorization: token,
-				},
-			})
-			.then((res) => {
-				const tasksToDoFilter = (item) => {
-					return item.done === false;
-				};
-				const tasksDoneFilter = (item) => {
-					return item.done === true;
-				};
-				setTasks(res.data);
-				setToDoTasks(tasks.filter(tasksToDoFilter));
-				setDoneTasks(tasks.filter(tasksDoneFilter));
-			});
-	}
+
 	function enterTask(props) {
 		setiIdTask(props._id);
 		setTask(props);
@@ -94,10 +106,11 @@ export const TaskProvider = ({ children }) => {
 				doneTasks,
 				todoTasks,
 				enterTask,
-				toogleEdited,
+				updateTask,
+				checkTask,
+				toogleTaskEdited,
 				addTask,
 				deleteTask,
-				getAllTasks,
 			}}
 		>
 			{children}

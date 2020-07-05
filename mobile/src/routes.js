@@ -15,6 +15,7 @@ import Lists from "./components/pages/Lists";
 import NewTask from "./components/pages/NewTask";
 import ProfileEdit from "./components/pages/ProfileEdit";
 import List from "./components/pages/List";
+import EditTask from "./components/pages/EditTask";
 import { ProfileProvider } from "./services/contexts/profileContext";
 import { MainProvider } from "./services/contexts/mainContext";
 import { ListProvider } from "./services/contexts/listContext";
@@ -25,6 +26,7 @@ const AppStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
 const ListStack = createStackNavigator();
 const TaskStack = createStackNavigator();
+const HomeStack = createStackNavigator();
 const AppTab = createBottomTabNavigator();
 function ProfileNavigator() {
 	return (
@@ -36,6 +38,15 @@ function ProfileNavigator() {
 				<ProfileStack.Screen name="ProfileEdit" component={ProfileEdit} />
 			</ProfileStack.Navigator>
 		</ProfileProvider>
+	);
+}
+function HomeNavigator() {
+	return (
+		<HomeStack.Navigator screenOptions={{ headerShown: false }}>
+			<HomeStack.Screen name="Home" component={Home} />
+			<HomeStack.Screen name="Task" component={Task} />
+			<HomeStack.Screen name="List" component={List} />
+		</HomeStack.Navigator>
 	);
 }
 function TaskNavigator() {
@@ -58,7 +69,16 @@ function TaskNavigator() {
 					}}
 					component={Tasks}
 				/>
-				<TaskStack.Screen name="Task" component={Task} />
+				<TaskStack.Screen
+					options={{ headerShown: false }}
+					name="Task"
+					component={Task}
+				/>
+				<TaskStack.Screen
+					options={{ headerShown: false }}
+					name="EditTask"
+					component={EditTask}
+				/>
 			</TaskStack.Navigator>
 		</TaskProvider>
 	);
@@ -99,6 +119,11 @@ function ListsNavigator() {
 						options={{ headerShown: false }}
 						component={Task}
 					/>
+					<ListStack.Screen
+						name="EditTask"
+						options={{ headerShown: false }}
+						component={EditTask}
+					/>
 				</ListStack.Navigator>
 			</TaskProvider>
 		</ListProvider>
@@ -123,7 +148,7 @@ function Main() {
 						<MaterialIcons name="dashboard" color={color} size={size} />
 					),
 				}}
-				component={Home}
+				component={HomeNavigator}
 			/>
 			<AppTab.Screen
 				name="Lists"

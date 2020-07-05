@@ -10,24 +10,29 @@ const listContext = createContext({
 	toogleEdited: this.toogleEdited,
 	edited: false,
 	tasksLength: 0,
-	tasks: [{}],
+	tasks: [],
 	getTasksList: this.getTasksList,
 	deleteList: this.deleteList,
-	todoTasks: [{}],
-	doneTasks: [{}],
+	todoTasks: [],
+	doneTasks: [],
+	screenTasks: [],
+	changeTasks: this.changeTasks,
 });
 
 export const ListProvider = ({ children }) => {
-	const [tasks, setTasks] = useState([{}]);
-	const [tasksLength, setTasksLength] = useState(0);
+	const [tasks, setTasks] = useState([]);
+
 	const [idlist, setIdlist] = useState("");
 	const [edited, setEdited] = useState(false);
-	const [todoTasks, setToDoTasks] = useState([{}]);
-	const [doneTasks, setDoneTasks] = useState([{}]);
+	const [todoTasks, setToDoTasks] = useState([]);
+	const [doneTasks, setDoneTasks] = useState([]);
+
 	const { token } = useContext(mainContext);
 	function clean() {
 		setIdlist(null);
-		setTasks([{}]);
+		setTasks([]);
+		setDoneTasks([]);
+		setToDoTasks([]);
 	}
 	function cleanIdlist() {
 		setIdlist(null);
@@ -44,8 +49,9 @@ export const ListProvider = ({ children }) => {
 				toogleEdited();
 			});
 	}
-	function toogleEdited() {
-		setEdited(!edited);
+	function toogleEdited(props) {
+		if (props) setEdited(props);
+		else setEdited(!edited);
 	}
 	async function getTasksList() {
 		await api
@@ -64,7 +70,6 @@ export const ListProvider = ({ children }) => {
 				setTasks(res.data);
 				setToDoTasks(tasks.filter(tasksToDoFilter));
 				setDoneTasks(tasks.filter(tasksDoneFilter));
-				toogleEdited();
 			});
 	}
 	async function deleteList() {
@@ -84,15 +89,16 @@ export const ListProvider = ({ children }) => {
 				idlist,
 				todoTasks,
 				doneTasks,
-				clean,
+				tasks,
 				edited,
+
+				clean,
 				enterList,
 				addList,
 				toogleEdited,
-				tasks,
+
 				getTasksList,
 				deleteList,
-				tasksLength,
 			}}
 		>
 			{children}

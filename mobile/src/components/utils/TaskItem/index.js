@@ -35,9 +35,11 @@ import {
 } from "react-native-redash";
 import taskContext from "../../../services/contexts/taskContext";
 import Action from "../Action";
+import listContext from "../../../services/contexts/listContext";
 
 function TaskItem({ item, OnSwipeLeft, OnSwipeRight }) {
-	const { enterTask } = useContext(taskContext);
+	const { enterTask, toogleTaskEdited } = useContext(taskContext);
+	const { toogleEdited } = useContext(listContext);
 	const {
 		gestureHandler,
 		translation,
@@ -50,8 +52,6 @@ function TaskItem({ item, OnSwipeLeft, OnSwipeRight }) {
 	const snapPoints = [-100, 0, 100];
 	const clock = useClock();
 	const to = snapPoint(translateX, velocity.x, snapPoints);
-	const shouldRemove = eq(to, -width);
-	const shouldComplete = eq(to, width);
 	useCode(
 		() => [
 			cond(
@@ -66,12 +66,12 @@ function TaskItem({ item, OnSwipeLeft, OnSwipeRight }) {
 		[]
 	);
 	return (
-		<Animated.View>
+		<Animated.View style={{ marginBottom: 20 }}>
 			<View style={styles.background}>
 				<Action
 					x={abs(translateX)}
 					backgroundColor="#0a5"
-					OnPress={() => console.log("asad")}
+					OnPress={OnSwipeLeft}
 					label="Complete"
 				/>
 				<Action
@@ -85,12 +85,13 @@ function TaskItem({ item, OnSwipeLeft, OnSwipeRight }) {
 				<Animated.View style={{ height, transform: [{ translateX }] }}>
 					<TouchableWithoutFeedback
 						onPress={() => {
-							enterTask(item.item);
+							enterTask(item);
+							toogleTaskEdited();
 						}}
 					>
 						<View style={styles.task}>
 							<View style={{ justifyContent: "center" }}>
-								<Text style={styles.taskText}>{item.item.title}</Text>
+								<Text style={styles.taskText}>{item.title}</Text>
 							</View>
 						</View>
 					</TouchableWithoutFeedback>
@@ -116,7 +117,6 @@ const styles = StyleSheet.create({
 		backgroundColor: "#fff",
 		width: width,
 		flexDirection: "row",
-		alignItems: "center",
 		paddingLeft: 16,
 		height: 50,
 		borderBottomWidth: StyleSheet.hairlineWidth,

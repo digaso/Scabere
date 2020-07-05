@@ -27,8 +27,10 @@ export default function Lists({ route, navigation }) {
 	const screenHeight = Math.round(Dimensions.get("window").height);
 	const [data, setData] = useState([]);
 	const [visible, setVisible] = useState(false);
+	const [helpvisible, setHelpVisible] = useState(false);
 	const { token, signed } = useContext(mainContext);
 	const { edited, addList, enterList, idlist } = useContext(listContext);
+
 	async function getUserLists() {
 		api
 			.get("/lists", {
@@ -50,6 +52,42 @@ export default function Lists({ route, navigation }) {
 	return (
 		<View style={styles.container}>
 			<StatusBar hidden />
+			<Modal animated={true} animationType={"slide"} visible={helpvisible}>
+				<View
+					style={{
+						flex: 1,
+						backgroundColor: "#fff",
+						justifyContent: "space-between",
+						alignItems: "center",
+					}}
+				>
+					<Text style={{ fontSize: 35 }}>Help</Text>
+					<View style={{ marginHorizontal: 16 }}>
+						<Text style={{ fontSize: 20 }}>
+							In this page you can see all of your lists.
+						</Text>
+						<Text style={{ fontSize: 20 }}>
+							To add a list you need to click the plus button.
+						</Text>
+						<Text style={{ fontSize: 20 }}>
+							It will pop up an textbox for the name of your new list.
+						</Text>
+					</View>
+					<TouchableOpacity
+						style={{
+							backgroundColor: "rgba(255,0,0,0.2)",
+							justifyContent: "center",
+							alignItems: "center",
+							borderRadius: 10,
+							padding: 20,
+							marginBottom: 32,
+						}}
+						onPress={() => setHelpVisible(false)}
+					>
+						<Text style={{ color: "#d00" }}>Cancel</Text>
+					</TouchableOpacity>
+				</View>
+			</Modal>
 			<Modal
 				animationType="fade"
 				visible={visible}
@@ -88,6 +126,22 @@ export default function Lists({ route, navigation }) {
 					</View>
 				</View>
 			</Modal>
+			<View
+				style={{
+					flexDirection: "row",
+					justifyContent: "space-between",
+				}}
+			>
+				<View style={{ flex: 0.7 }} />
+				<TouchableOpacity
+					style={{ alignSelf: "flex-end", marginRight: 16, marginBottom: 16 }}
+					onPress={() => {
+						setHelpVisible(true);
+					}}
+				>
+					<MaterialIcons size={32} name="question-mark" />
+				</TouchableOpacity>
+			</View>
 			<ScrollView showsVerticalScrollIndicator={false}>
 				{data.length > 0 ? (
 					data.map((item, index) => (

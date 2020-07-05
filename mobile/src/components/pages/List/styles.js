@@ -1,5 +1,7 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
+
+const screenHeight = Math.round(Dimensions.get("window").height);
 export default StyleSheet.create({
 	container: {
 		flex: 1,
@@ -32,5 +34,13 @@ export default StyleSheet.create({
 		alignItems: "center",
 		justifyContent: "space-around",
 		flex: 0.12,
+	},
+	buttonPlus: {
+		position: "absolute",
+		top: screenHeight - 120,
+		right: 28,
+		flexDirection: "row",
+		width: 50,
+		alignSelf: "flex-end",
 	},
 });
