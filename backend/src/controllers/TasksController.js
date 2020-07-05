@@ -33,20 +33,25 @@ module.exports = {
   },
   async update(request, response) {
     const id = request.params.id;
+    const task = Task.findOne({ _id: id });
     const { username } = request.userData;
-    const {
-      title,
-      description,
-      deadline_date,
-      ispinned,
-      done,
-      location,
-      idlist,
-    } = request.body;
+    const { title, description, location } = request.body;
+    let newTitle = title;
+    let newDescription = description;
+    let newLocation = location;
+    if (title === "" || title === undefined) {
+      newTitle = task.title;
+    }
+    if (description === undefined) {
+      newDescription = task.description;
+    }
+    if (location === undefined) {
+      newLocation = task.location;
+    }
 
-    const task = await Task.findOneAndUpdate(
+    await Task.findOneAndUpdate(
       { _id: id },
-      { title, description, deadline_date, ispinned, done, location, idlist }
+      { title: newTitle, description: newDescription, location: newLocation }
     );
     console.log(`task updated by ${username}`);
     return response.status(200).json();

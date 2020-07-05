@@ -4,7 +4,6 @@ const ParseToStringArray = require("../utils/parseStringtoArray");
 
 module.exports = {
   async index(request, response) {
-    let numTasks = 0;
     const { username } = request.userData;
     const lists = await List.find({
       users: {
@@ -56,5 +55,29 @@ module.exports = {
         .status(401)
         .json({ error: "User do not have permission" });
     }
+  },
+  async homeTasks(request, response) {
+    const { username } = request.userData;
+    const tasks = await Task.find({ username });
+    const lists = await List.find({
+      users: {
+        $elemMatch: {
+          $eq: username,
+        },
+      },
+    });
+    const data = { task: {}, lists: [] };
+    if (tasks.length > 0) {
+      const tasksLength = tasks.length - 1;
+      const randomNumber = Math.floor(Math.random() * tasksLength);
+      data.task = tasks[randomNumber];
+    }
+    if (lists.length > 0) {
+      const dataList = [];
+      dataList.push(lists[0]);
+      dataList.push(lists[1]);
+      data.lists = dataList;
+    }
+    return response.status(200).json(data);
   },
 };

@@ -30,6 +30,7 @@ routes.get("/stats", checkAuth, StatisticsController.index);
 routes.get("/lists", checkAuth, ListsController.index);
 routes.delete("/lists/:id", checkAuth, ListsController.destroy);
 routes.post("/lists", checkAuth, ListsController.store);
+routes.get("/home", checkAuth, ListsController.homeTasks);
 
 routes.get("/lists/:id/tasks", checkAuth, TasksController.listTasks);
 routes.get("/tasks", checkAuth, getUserLists, TasksController.index);
