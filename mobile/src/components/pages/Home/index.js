@@ -66,13 +66,7 @@ export default function Home({ route, navigation }) {
 							data.lists.map((item, index) => {
 								console.log(data.lists);
 								return (
-									<TouchableOpacity
-										style={styles.list}
-										onPress={() => {
-											enterList(item._id);
-											navigation.navigate("List");
-										}}
-									>
+									<TouchableOpacity style={styles.list}>
 										<Text style={styles.listName}>
 											{item.name ? item.name : "list"}
 										</Text>
@@ -90,13 +84,7 @@ export default function Home({ route, navigation }) {
 			<View style={styles.taskContainer}>
 				<Text style={styles.title}>Highlighted Task</Text>
 				{data.task.title ? (
-					<TouchableOpacity
-						style={styles.task}
-						onPress={() => {
-							enterTask(data.task._id);
-							navigation.navigate("Task");
-						}}
-					>
+					<TouchableOpacity style={styles.task}>
 						<Text style={styles.taskTitle}>{data.task.title}</Text>
 						<Text style={styles.taskDescription}>
 							{data.task.description
