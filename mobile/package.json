@@ -32,7 +32,7 @@
 		"react-native-gesture-handler": "1.6.0",
 		"react-native-modal-datetime-picker": "^8.7.1",
 		"react-native-paper": "^3.10.1",
-		"react-native-reanimated": "1.7.0",
+		"react-native-reanimated": "2.10.0",
 		"react-native-redash": "14.0.4",
 		"react-native-safe-area-context": "0.6.0",
 		"react-native-screens": "2.0.0-alpha.12",
